@@ -445,6 +445,10 @@ footer {
         width: 12vw;
     }
 
+    .mobile-footer > p {
+        font-size: 2vw;
+    }
+
     .text-collab {
         display: none;
     }
