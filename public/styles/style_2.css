@@ -1,0 +1,150 @@
+
+* {
+    font-family: Poppins;
+}
+
+main {
+    padding-top: 5vw;
+}
+
+body{
+    background-image: url(back_login.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mk18-logo > img {
+    width: 10vw;
+    margin-bottom: 2vw;
+}
+
+.choice-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 25.5vw;
+    height: 4vw;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 1.5vw 1.5vw 0 0;
+    border-bottom: 0.075vw solid rgba(0, 0, 0, 0.1);
+}
+
+.login {
+    font-size: 1.05vw;
+    font-weight: 600;
+    color: rgba(58, 12, 163);
+    margin-right: 4.5vw;
+    border: 0;
+    background-color: white;
+}
+
+.register {
+    font-size: 1.05vw;
+    font-weight: 600;
+    color: rgb(163, 162, 167);
+    border: 0;
+    background-color: white;
+    transition: color;
+}
+
+.register:hover {
+    color: rgba(58, 12, 163);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 25.5vw;
+    height: 19vw;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 0 0 1.5vw 1.5vw;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.input-box {
+    margin-top: 1.5vw;
+}
+
+.input-box > input {
+    border: none;
+    border-radius: 0.4vw;
+    background-color: rgb(212, 212, 212, 0.4);
+    height: 2.5vw;
+    width: 17vw;
+    padding-left: 0.5vw;
+    font-size: 0.7vw;
+}
+
+.input-box > i {
+    font-size: 1.05vw;
+    margin-right: 0.7vw;
+}
+
+.remember-forgot {
+    align-self: start;
+    font-size: 0.6vw;
+    display: flex;
+    gap: 7vw;
+    align-items: start;
+    justify-content: center;
+    margin-top: 1.1vw;
+    margin-bottom: 3.5vw;
+}
+
+.remember-forgot label input {
+    margin: 0;
+    margin-right: 0.3vw;
+    width: 1.9vw;
+    height: 0.85vw;
+}
+
+.remember-forgot > label > p {
+    margin: 0;
+}
+
+.remember-forgot > label {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+}
+
+.remember-forgot > a {
+    text-decoration: none;
+    color: black;
+}
+
+.remember-forgot > a:hover {
+    color: rgba(58, 12, 163);
+}
+
+.login-btn {
+    border: none;
+    background-color: rgba(58, 12, 163);
+    height: 2.5vw;
+    width: 14vw;
+    border-radius: 2vw;
+    color: white;
+    font-size: 0.8vw;
+}
+
