@@ -43,7 +43,7 @@ body{
 .login {
     font-size: 1.05vw;
     font-weight: 600;
-    color: rgba(58, 12, 163);
+    color: rgb(163, 162, 167);
     margin-right: 4.5vw;
     border: 0;
     background-color: white;
@@ -52,13 +52,13 @@ body{
 .register {
     font-size: 1.05vw;
     font-weight: 600;
-    color: rgb(163, 162, 167);
+    color: rgba(58, 12, 163);
     border: 0;
     background-color: white;
     transition: color;
 }
 
-.register:hover {
+.login:hover {
     color: rgba(58, 12, 163);
 }
 
@@ -68,7 +68,7 @@ body{
     align-items: center;
     justify-content: start;
     width: 25.5vw;
-    height: 19vw;
+    height: 25vw;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 0 0 1.5vw 1.5vw;
@@ -138,6 +138,15 @@ form {
     color: rgba(58, 12, 163);
 }
 
+.id-info {
+    width: 15vw;
+    margin-top: 3vw;
+    margin-bottom: 1vw;
+    font-size: 0.8vw;
+    font-weight: 500;
+    color: rgba(58, 12, 163);
+}
+
 .login-btn {
     border: none;
     background-color: rgba(58, 12, 163);
@@ -204,6 +213,13 @@ form {
         margin-right: 0.9vw;
         width: 11.4vw;
         height: 5.1vw;
+    }
+
+    .id-info {
+        width: 55vw;
+        margin-top: 9vw;
+        margin-bottom: 5vw;
+        font-size: 3vw;
     }
     
     .login-btn {
