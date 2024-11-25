@@ -5,6 +5,14 @@
     padding: 0;
 }
 
+nav > button {
+    display:none;
+}
+
+aside > button {
+    display: none;
+}
+
 body {
     min-height: 100vh;
     display: grid;
@@ -180,4 +188,89 @@ footer {
     grid-area: footer;
     background-color: rgb(239,243,246);
     padding: 1em;
+}
+
+@media(max-width: 1300px){
+    body > nav > p{
+        display: none;
+    }
+
+    main{
+        background-image: url(mobile_back.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    main > h1 {
+        font-size: 5vw;
+    }
+
+    .list-info > .info-one > p{
+        font-size: 1.8vw;
+    }
+
+    .list-info > .info-two > p{
+        font-size: 1.8vw;
+    }
+}
+
+@media(max-width: 768px){
+    
+    main{
+        padding-top: 1em;
+    }
+
+    main > h1 {
+        font-size: 8vw;
+    }
+
+    .list-info {
+        margin-top: 0.5em;
+    }
+
+    .list-info > .info-one > p{
+        font-size: 1.99vw;
+    }
+
+    .list-info > .info-two > p{
+        font-size: 1.99vw;
+    }
+
+    body{
+        grid-template-columns: 1fr;
+    }
+    
+    nav > button{
+        display: block;
+    }
+
+    aside > button {
+        display: block;
+    }
+
+    aside{
+        position: fixed;
+        width: 300px;
+        display: none;
+    }
+
+    aside > button {
+        font-size: 2.5em;
+        margin-bottom: 1em;
+        margin-left: 3em;
+        border:none;
+        background: none;
+        color: white;
+    }
+
+    .mk18-logo {
+        margin-left: 3em;
+        margin-bottom: 1em;
+    }
+
+    .show{
+        display: block;
+    }
 }

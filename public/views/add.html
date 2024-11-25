@@ -8,22 +8,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
+    <script src="mobile_sidebar.js" defer></script>
     <title>Witaj w aktulizatorze MK18!</title>
 </head>
 <body>
     <nav>
+        <button onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
         <p>Witaj! Aby dokonać zmian na wpisach lub dodać wpisy skorzystać z panelu akcji po lewej.</p>
         <div class="user-info">
             <p>Jan Kowalski</p>
             <i class="fa-regular fa-circle-user"></i>
         </div>
     </nav>
-    <aside>
+    <aside id="sidebar">
         <div class="mk18-logo">
             <img src="../styles/mk18-icon.png" alt="mk18">
         </div>
+        <button onclick="toggleSidebar()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         <ul>
-            <li><i class="fa-regular fa-user"></i>Profile</li>
+            <li><i class="fa-regular fa-user"></i>Profil</li>
             <li><i class="fa-solid fa-list"></i>Lista wpisów</li>
             <li><i class="fa-solid fa-plus"></i>Dodaj wpis</li>
             <li><i class="fa-solid fa-magnifying-glass"></i>Filtruj wpisy</li>
@@ -60,7 +63,7 @@
         </div>     
     </main>
     <footer>
-        Ostatnia aktualizacja 11.11.24
+        Ostatnia aktualizacja 25.11.24
     </footer>
 </body>
 </html>
