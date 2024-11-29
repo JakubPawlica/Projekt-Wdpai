@@ -16,7 +16,7 @@
         body{
             display: flex;
             justify-content: center;
-            background-image: url(../styles/back_login.png);
+            background-image: url(public/styles/back_login.png);
             background-repeat: no-repeat;
             background-position: center;
             background-attachment: fixed;

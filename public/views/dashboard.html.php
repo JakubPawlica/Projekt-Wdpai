@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/style_1.css">
+    <link rel="stylesheet" href="public/styles/style_1.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
@@ -24,7 +24,7 @@
         </div>
     </div>
     <nav>
-        <img src="../styles/mk18-icon.png" alt="mk18">
+        <img src="public/styles/mk18-icon.png" alt="mk18">
         <div class="login-section">
             <i class="fa-regular fa-circle-user"></i>
             <a href="loginpage.html">Zaloguj się / Zarejestruj się</a>
@@ -35,7 +35,7 @@
         <div class="fade-background">
 
             <div class="mobile-section-one">
-                <img src="../styles/mk18-icon.png" alt="mk18">
+                <img src="public/styles/mk18-icon.png" alt="mk18">
                 <button>Zaloguj się</button>
             </div>
 
@@ -52,23 +52,23 @@
                     </p>
                 </div>
                 <div class="photo-section">
-                    <img src="../styles/noho.jpeg" alt="noho">
+                    <img src="public/styles/noho.jpeg" alt="noho">
                 </div>
             </div>
     
             <div class="wrapper-two">
                 <div class="first-con">
-                    <img src="../styles/klienci.jpg" alt="mk18">
+                    <img src="public/styles/klienci.jpg" alt="mk18">
                     <p>+20k klientów zaufało MK18</p>
                 </div>
                 <div class="second-con">
-                    <img src="../styles/allegro.jpg" alt="mk18">
+                    <img src="public/styles/allegro.jpg" alt="mk18">
                     <p>Allegro oficjalnym partnerem MK18</p>
                 </div>
             </div>
 
             <div class="mobile-footer">
-                <img src="../styles/mk18-icon.png" alt="mk18">
+                <img src="public/styles/mk18-icon.png" alt="mk18">
                 <p>Skontaktuj się z nami i dowiedz się więcej na www.mk18.pl</p>
             </div>
         </div>
@@ -78,15 +78,15 @@
         </div>
 
         <div class="gray-logos">
-            <img src="../styles/allegro_grey.png" alt="noho">
-            <img src="../styles/arena_grey.png" alt="noho">
-            <img src="../styles/noho_grey.png" alt="noho">
+            <img src="public/styles/allegro_grey.png" alt="noho">
+            <img src="public/styles/arena_grey.png" alt="noho">
+            <img src="public/styles/noho_grey.png" alt="noho">
         </div>
     </main>
 
     <footer>
         <div class="first-footer">
-            <img src="../styles/noho2.png" alt="noho2">
+            <img src="public/styles/noho2.png" alt="noho2">
             <div class="footer-info-list">
                 <ul>
                     <li><i class="fa-solid fa-location-dot"></i> Christo Botewa 6b, 30-798 Kraków</li>
@@ -98,7 +98,7 @@
 
         <div class="second-footer">
             <p>Jeżeli chcesz dowiedzieć się więcej wejdź na www.mk18.pl</p>
-            <img src="../styles/mk18-icon.png" alt="mk18">
+            <img src="public/styles/mk18-icon.png" alt="mk18">
         </div>
 
     </footer>

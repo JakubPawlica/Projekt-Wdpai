@@ -14,7 +14,9 @@ class Routing {
         $action = explode("/",$url)[0];
 
         if(!array_key_exists($action, self::$routes)) {
-            die("Wrong URL!");
+            //die("Wrong URL!"); Obsługa błędu 404
+            $controller = new DefaultController();
+            return $controller->error404();
         }
 
         $controller = self::$routes[$action];
