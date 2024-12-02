@@ -7,3 +7,4 @@ TO DO LIST:
         ✅ (Bede na wykladzie na pewno) Wykład za tydzień o autentykacji
         ✅ Refaktor czyli np AppController zamiast print $output to strona 404 tak samow Routingu zamiast die wrong url to strona
         ✅ Czemu nie działa mi tamta jedna rzecz z zajęć
+        sprawdzam czy działa git
