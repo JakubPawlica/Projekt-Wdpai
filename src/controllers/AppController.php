@@ -2,18 +2,25 @@
 
 class AppController {
 
+    private $request;
+
+    public function __construct()
+    {
+        $this->request = $_SERVER['REQUEST_METHOD'];
+    }
+
     protected function isGet(): bool
     {
-        return $_SERVER['REQUEST_METHOD'] === 'GET';
+        return $this->request === 'GET';
     }
- 
+
     protected function isPost(): bool
     {
-        return $_SERVER['REQUEST_METHOD'] === 'POST';
+        return $this->request === 'POST';
     }
     
     protected function render(string $template = null, array $variables = []) {
-        $templatePath = 'public/views/'.$template.'.html.php';
+        $templatePath = 'public/views/'.$template.'.php';
         //$output = 'File not found';
 
         if(!file_exists($templatePath)) {

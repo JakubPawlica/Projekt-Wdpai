@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Appcontroller.php';
+require_once 'AppController.php';
 
 class DefaultController extends AppController {
     
@@ -22,26 +22,5 @@ class DefaultController extends AppController {
     public function home(){
         //TODO display home.html
         $this->render('home');
-    }
-
-    public function loginpage(){
-        //TODO display loginpage.html
-
-        if($this->isGet()){
-            return $this->render("loginpage");
-        }
-
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        $this->render("home", [
-            'email'=>$email,
-            'password'=>$password
-        ]);
-    }
-
-    public function registerpage(){
-        //TODO display registerpage.html
-        $this->render('registerpage');
     }
 }

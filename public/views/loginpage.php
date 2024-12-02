@@ -21,7 +21,15 @@
                 <a href="registerpage.html"><button class="register">Zarejestruj</button></a>
             </div>
             <div class="login-form">
-                <form action="/loginpage" method="POST">
+                <form action="loginpage" method="POST">
+                    <div class="messages" style="margin-top: 15px; color:red; font-weight: bold">
+                        <?php if(isset($messages)){
+                            foreach($messages as $message){
+                                echo $message;
+                            }
+                        }
+                        ?>
+                    </div>
                     <div class="input-box">
                         <i class="fa-solid fa-envelope"></i>
                         <input type="email" name="email" required placeholder="Email">
