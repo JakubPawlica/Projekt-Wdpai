@@ -9,6 +9,7 @@ Routing::get('index', 'DefaultController');
 Routing::get('dashboard', 'DefaultController');
 Routing::get('404', 'DefaultController');
 Routing::get('home', 'DefaultController');
+Routing::get('logout', 'SecurityController');
 Routing::post('loginpage', 'SecurityController');
 Routing::post('registerpage', 'SecurityController');
 Routing::run($path);

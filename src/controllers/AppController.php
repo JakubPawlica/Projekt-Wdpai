@@ -34,6 +34,11 @@ class AppController {
         include $templatePath;
         $output = ob_get_clean();
 
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
         print $output;
+        exit;
     }
 }

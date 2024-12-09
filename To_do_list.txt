@@ -2,8 +2,8 @@
 TO DO LIST:  
         
         ✅ Zredukować includem replikację kodu w templateach (Po przepatrzeniu kodu, na obecną chwilę, nie wiem czy w moim przypadku trzeba gdziekolwiek zastosować)
-        password_hash($password, PASSWORD_BCRYPT) - TO DO REGISTER.HTML
-        password_verify() na YT odcinek 06. (i to dla logowania)
+        ✅ password_hash($password, PASSWORD_BCRYPT) - TO DO REGISTER.HTML
+        ✅ password_verify() na YT odcinek 06. (i to dla logowania)
         ✅ (Bede na wykladzie na pewno) Wykład za tydzień o autentykacji
         ✅ Refaktor czyli np AppController zamiast print $output to strona 404 tak samow Routingu zamiast die wrong url to strona
         ✅ Czemu nie działa mi tamta jedna rzecz z zajęć
