@@ -16,7 +16,6 @@ class SecurityController extends AppController
 
         $email = $_POST["email"];
         $password = $_POST["password"];
-
         $user = $userRepository->getUser($email);
 
         if(!$user) {
@@ -32,10 +31,24 @@ class SecurityController extends AppController
         }
 
         $new_session = $this->createUserToken($user->getId());
+        $token = $new_session; // Przypisujemy do zmiennej
+        $id = $user->getId();  // Przypisujemy do zmiennej
+
+        $stmt = $this->database->connect()->prepare('UPDATE users SET session_token = :token WHERE id = :id');
+        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
         setcookie("user_token", $new_session, time() + (356 * 24 * 60 * 60), '/');
 
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/home");
+        // Sprawdź, czy bufor jest aktywny i wyczyść go
+        if (ob_get_level()) {
+            ob_end_clean(); // Usuwa dane z bufora i wyłącza go
+        }
+
+        $url = "http://$_SERVER[HTTP_HOST]/home";
+        header("Location: {$url}");
+        exit;
     }
 
     public function registerpage(){
@@ -72,19 +85,26 @@ class SecurityController extends AppController
 
     public function logout()
     {
-        // Usuń ciasteczko 'user_token'
-        setcookie("user_token", "", time() - 3600, '/');  // Ustawiamy datę wygaszenia ciasteczka na przeszłość
+        if (isset($_COOKIE['user_token'])) {
+            $token = $_COOKIE['user_token'];
 
-        // Możesz również zakończyć sesję, jeśli jej używasz
-        if (isset($_SESSION)) {
-            session_unset();  // Usuwa wszystkie zmienne sesyjne
-            session_destroy(); // Niszczy całą sesję
+            // Usuń token z bazy danych
+            $stmt = $this->database->connect()->prepare('UPDATE users SET session_token = NULL WHERE session_token = :token');
+            $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+            $stmt->execute();
+
+            // Usuń ciasteczko
+            setcookie("user_token", "", time() - 3600, '/');
         }
 
-        // Przekierowanie użytkownika na stronę logowania po wylogowaniu
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/loginpage");
-        exit; // Upewnij się, że nie ma dalszego kodu po przekierowaniu
+        if (isset($_SESSION)) {
+            session_unset();
+            session_destroy();
+        }
+
+        $url = "http://$_SERVER[HTTP_HOST]/loginpage";
+        header("Location: {$url}");
+        exit;
     }
 
     protected function createUserToken(int $userId): string

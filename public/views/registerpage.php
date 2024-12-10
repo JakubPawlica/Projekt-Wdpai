@@ -38,11 +38,11 @@
                     </div>
                     <div class="input-box">
                         <i class="fa-solid fa-user-pen"></i>
-                        <input type="name" name="name" required placeholder="Imię">
+                        <input type="text" name="name" required placeholder="Imię">
                     </div>
                     <div class="input-box">
                         <i class="fa-solid fa-user-group"></i>
-                        <input type="surname" name="surname" required placeholder="Nazwisko">
+                        <input type="text" name="surname" required placeholder="Nazwisko">
                     </div>
                     <div class="input-box">
                         <i class="fa-solid fa-envelope"></i>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="input-box">
                         <i class="fa-solid fa-user-shield"></i>
-                        <input type="worker_id" name="worker_id" required placeholder="Identyfikator pracownika">
+                        <input type="text" name="worker_id" required placeholder="Identyfikator pracownika">
                     </div>
                     <div class="id-info">
                         Poproś rekrutera o identyfikator aby potwierdzić, że jesteś pracownikiem.

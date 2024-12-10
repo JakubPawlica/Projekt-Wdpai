@@ -10,4 +10,9 @@ class Repository
     {
         $this->database = new Database();
     }
+
+    public function connect()
+    {
+        return $this->database->connect();
+    }
 }

@@ -70,5 +70,29 @@ class UserRepository extends Repository
         return $data['id'];
     }
 
+    public function getUserByToken(string $token): ?array
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT u.id, ud.name, ud.surname
+        FROM users u
+        LEFT JOIN users_details ud ON u.id_user_details = ud.id
+        WHERE u.session_token = :token
+    ');
+        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            return null;
+        }
+
+        return [
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'surname' => $user['surname'],
+        ];
+    }
+
 
 }

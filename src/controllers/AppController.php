@@ -1,11 +1,15 @@
 <?php
 
+require_once __DIR__ . '/../repository/Repository.php';
+
 class AppController {
 
     private $request;
+    protected $database;
 
     public function __construct()
     {
+        $this->database = new Repository();
         $this->request = $_SERVER['REQUEST_METHOD'];
     }
 
@@ -41,4 +45,29 @@ class AppController {
         print $output;
         exit;
     }
+
+    protected function redirectIfNotAuthenticated()
+    {
+        if (!$this->isAuthenticated()) {
+            $url = "http://$_SERVER[HTTP_HOST]/loginpage";
+            header("Location: {$url}");
+            exit;
+        }
+    }
+
+    protected function isAuthenticated(): bool
+    {
+        if (!isset($_COOKIE['user_token'])) {
+            return false;
+        }
+
+        $token = $_COOKIE['user_token'];
+        // Weryfikacja tokenu z bazą danych
+        $stmt = $this->database->connect()->prepare('SELECT id FROM users WHERE session_token = :token');
+        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+    }
+
 }

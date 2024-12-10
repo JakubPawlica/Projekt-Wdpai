@@ -40,7 +40,7 @@
         <button onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
         <p>Witaj! Aby dokonać zmian na wpisach lub dodać wpisy skorzystać z panelu akcji po lewej.</p>
         <div class="user-info">
-            <p>Jan Kowalski</p>
+            <p><?= htmlspecialchars($name) . ' ' . htmlspecialchars($surname); ?></p>
             <i class="fa-regular fa-circle-user"></i>
         </div>
     </nav>
