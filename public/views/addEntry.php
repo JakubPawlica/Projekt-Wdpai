@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/style_5.css">
+    <link rel="stylesheet" href="public/styles/style_5.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
@@ -22,7 +22,7 @@
     </nav>
     <aside id="sidebar">
         <div class="mk18-logo">
-            <img src="../styles/mk18-icon.png" alt="mk18">
+            <img src="public/styles/mk18-icon.png" alt="mk18">
         </div>
         <button onclick="toggleSidebar()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         <ul>
@@ -36,30 +36,35 @@
     <main>
         <h1>Dodaj wpis</h1>
         <div class="add-menu">
+            <form action="addEntry" method="POST">
+                <?php
+                if(isset($messages)){
+                    foreach($messages as $message){
+                        echo $message;
+                    }
+                }
+                ?>
             <div class="fill-one">
                 Uzupełnij pola
             </div>
             <div class="gaps-one">
-                <form action="#">
                     <div class="input-box">
-                        <input type="id" required placeholder="ID">
+                        <input type="text" name="entry_id" required placeholder="ID">
                     </div>
                     <div class="input-box">
-                        <input type="location" required placeholder="Lokalizacja">
+                        <input type="text" name="location" required placeholder="Lokalizacja">
                     </div>
-                </form>
             </div>
             <div class="fill-two">
                 Zaktualizuj ilość
             </div>
             <div class="gaps-one">
-                <form action="#">
                     <div class="input-box">
-                        <input type="amount" required placeholder="Ilość">
+                        <input type="text" name="amount" required placeholder="Ilość">
                     </div>
-                </form>
             </div>
-            <button type="sumbit" class="add-btn">Dodaj wpis</button>
+            <button type="submit" class="add-btn">Dodaj wpis</button>
+            </form>
         </div>     
     </main>
     <footer>

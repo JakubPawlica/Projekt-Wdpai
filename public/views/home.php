@@ -33,6 +33,11 @@
             color: rgb(110,0,255);
             background-color: white;
         }
+
+        .edit:hover {
+            cursor: pointer !important;
+            text-decoration: underline !important;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +57,7 @@
         <ul>
             <li><i class="fa-regular fa-user"></i>Profil</li>
             <li><i class="fa-solid fa-list"></i>Lista wpisów</li>
-            <li><i class="fa-solid fa-plus"></i>Dodaj wpis</li>
+            <a href="addEntry"><li><i class="fa-solid fa-plus"></i>Dodaj wpis</li></a>
             <li><i class="fa-solid fa-magnifying-glass"></i>Filtruj wpisy</li>
             <a href="logout"><li><i class="fa-solid fa-door-open"></i></i>Wyloguj</li></a>
         </ul>
@@ -70,243 +75,36 @@
             </div>
         </div>
         <div class="list">
+            <?php if (isset($entries) && count($entries) > 0): ?>
             <table>
-                <tr>
-                    <th>Użytkownik</th>
-                    <th>ID</th>
-                    <th>Lokalizacja</th>
-                    <th>Ilość</th>
-                    <th>Akcja</th>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Adam Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-9</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Jan Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+4</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Ola Kowalska</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>-3</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
-                <tr>
-                    <td>Katarzyna Nowak</td>
-                    <td>25436788</td>
-                    <td>DB-1902</td>
-                    <td>+12</td>
-                    <td class="edit">Edytuj</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Użytkownik</th>
+                        <th>ID</th>
+                        <th>Lokalizacja</th>
+                        <th>Ilość</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($entries as $entry): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($entry->getUserName()); ?></td>
+                            <td><?= htmlspecialchars($entry->getEntryId()); ?></td>
+                            <td><?= htmlspecialchars($entry->getLocation()); ?></td>
+                            <td><?= htmlspecialchars($entry->getAmount()); ?></td>
+                            <td class="edit">Edytuj</td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
             </table>
+            <?php else: ?>
+                <p>Brak wpisów do wyświetlenia.</p>
+            <?php endif; ?>
         </div>
     </main>
     <footer>
-        Ostatnia aktualizacja 25.11.24
+        Ostatnia aktualizacja 16.12.24
     </footer>
 </body>
 </html>

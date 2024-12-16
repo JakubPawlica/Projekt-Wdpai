@@ -59,7 +59,7 @@
                     <div class="id-info">
                         Poproś rekrutera o identyfikator aby potwierdzić, że jesteś pracownikiem.
                     </div>
-                    <button type="sumbit" class="login-btn">Zarejestruj się</button>
+                    <button type="submit" class="login-btn">Zarejestruj się</button>
                 </form>
             </div>
         </div>
