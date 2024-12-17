@@ -94,5 +94,13 @@ class UserRepository extends Repository
         ];
     }
 
+    public function getUsersCount(): int
+    {
+        $stmt = $this->database->connect()->prepare("SELECT COUNT(*) AS count FROM users");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return (int) $result['count'];
+    }
 
 }

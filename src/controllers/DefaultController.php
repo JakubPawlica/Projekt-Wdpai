@@ -43,11 +43,19 @@ class DefaultController extends AppController {
         $entryRepository = new EntryRepository();
         $entries = $entryRepository->getAllEntries($user['id']); // Pobierz wpisy przypisane do użytkownika
 
-        // Przekazanie danych użytkownika i wpisów do widoku
+        // Pobierz liczbę wszystkich wpisów
+        $entriesCount = $entryRepository->getEntriesCount();
+
+        // Pobierz liczbę wszystkich użytkowników
+        $usersCount = $userRepository->getUsersCount();
+
+        // Przekazanie danych użytkownika i wpisów do widoku, także liczbę wpisów
         $this->render('home', [
             'name' => $user['name'],
             'surname' => $user['surname'],
-            'entries' => $entries
+            'entries' => $entries,
+            'entriesCount' => $entriesCount,
+            'usersCount' => $usersCount
         ]);
     }
 

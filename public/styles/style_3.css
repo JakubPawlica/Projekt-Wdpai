@@ -68,7 +68,7 @@ body{
     align-items: center;
     justify-content: start;
     width: 25.5vw;
-    height: 31vw;
+    height: 33vw;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 0 0 1.5vw 1.5vw;
@@ -181,7 +181,7 @@ form {
 
     .login-form {
         width: 85vw;
-        height: 120vw;
+        height: 160vw;
         border-radius: 0 0 4.5vw 4.5vw;
     }
     

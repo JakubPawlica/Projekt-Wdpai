@@ -180,14 +180,44 @@ tr:nth-child(odd) {
     background-color: #ffffff;
 }
 
-.edit {
-    color: blue;
-}
-
 footer {
     grid-area: footer;
     background-color: rgb(239,243,246);
     padding: 1em;
+}
+
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+    margin-top: 2em;
+}
+
+.searchTerm {
+    width: 28%;
+    border: 3px solid rgb(110,0,255);
+    border-right: none;
+    padding: 5px;
+    height: 24px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+}
+
+.searchTerm:focus{
+    color: rgb(0, 0, 0);
+}
+
+.searchButton {
+    width: 44px;
+    height: 40px;
+    border: 1px solid rgb(110,0,255);
+    background: rgb(110,0,255);
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 24px;
 }
 
 @media(max-width: 1300px){
@@ -214,6 +244,7 @@ footer {
     .list-info > .info-two > p{
         font-size: 1.8vw;
     }
+
 }
 
 @media(max-width: 768px){

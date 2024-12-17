@@ -10,6 +10,30 @@
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
     <script src="mobile_sidebar.js" defer></script>
     <title>Witaj w aktulizatorze MK18!</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        a > li {
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            padding-right: 15px;
+            width: 180px;
+            height: 50px;
+        }
+
+        a > li > i {
+            margin-right: 2em;
+        }
+
+        a:hover {
+            color: rgb(110,0,255);
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -27,10 +51,10 @@
         <button onclick="toggleSidebar()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         <ul>
             <li><i class="fa-regular fa-user"></i>Profil</li>
-            <li><i class="fa-solid fa-list"></i>Lista wpisów</li>
-            <li><i class="fa-solid fa-plus"></i>Dodaj wpis</li>
-            <li><i class="fa-solid fa-magnifying-glass"></i>Filtruj wpisy</li>
-            <li><i class="fa-solid fa-door-open"></i></i>Wyloguj</li>
+            <a href="home"><li><i class="fa-solid fa-list"></i>Lista wpisów</li></a>
+            <a href="addEntry"><li><i class="fa-solid fa-plus"></i>Dodaj wpis</li></a>
+            <a href="filter"><li><i class="fa-solid fa-magnifying-glass"></i>Filtruj wpisy</li></a>
+            <a href="logout"><li><i class="fa-solid fa-door-open"></i></i>Wyloguj</li></a>
         </ul>
     </aside>
     <main>
