@@ -2,17 +2,24 @@
 
 class Entry
 {
+    private $id;
     private $user_name;
     private $entry_id;
     private $location;
     private $amount;
 
-    public function __construct($user_name, $entry_id, $location, $amount)
+    public function __construct($id, $user_name, $entry_id, $location, $amount)
     {
+        $this->id = $id;
         $this->user_name = $user_name;
         $this->entry_id = $entry_id;
         $this->location = $location;
         $this->amount = $amount;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getUserName(): string

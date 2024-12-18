@@ -20,6 +20,7 @@ class EntryRepository extends Repository
         }
 
         return new Entry(
+            $entry['id'],
             $entry['user_name'],
             $entry['entry_id'],
             $entry['location'],
@@ -47,7 +48,8 @@ class EntryRepository extends Repository
 
     public function getAllEntries(): array
     {
-        $query = "SELECT * FROM entry_list";
+        // Zapytanie SQL ograniczone tylko do wybranych kolumn
+        $query = "SELECT id, user_name, entry_id, location, amount FROM entry_list";
         $stmt = $this->database->connect()->prepare($query);
         $stmt->execute();
 
@@ -56,6 +58,7 @@ class EntryRepository extends Repository
         $result = [];
         foreach ($entries as $entry) {
             $result[] = new Entry(
+                $entry['id'],
                 $entry['user_name'],
                 $entry['entry_id'],
                 $entry['location'],
@@ -66,22 +69,15 @@ class EntryRepository extends Repository
         return $result;
     }
 
-    public function deleteEntryById(int $id): void
+    public function deleteEntry(int $id): void
     {
-        // Usuwamy wpis na podstawie id w bazie danych
-        $stmt = $this->database->connect()->prepare("DELETE FROM entry_list WHERE id = :id");
+        $stmt = $this->database->connect()->prepare("
+        DELETE FROM entry_list 
+        WHERE id = :id
+    ");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
     }
-
-    /* Niepoprawna funkcja DELETE ENTRY
-    public function deleteEntry(int $entryId): void
-    {
-        $query = "DELETE FROM entry_list WHERE entry_id = :entryId";
-        $stmt = $this->database->connect()->prepare($query);
-        $stmt->bindParam(':entryId', $entryId, PDO::PARAM_INT);
-        $stmt->execute();
-    }*/
 
     public function getEntriesCount(): int
     {
@@ -97,12 +93,13 @@ class EntryRepository extends Repository
         $searchString = '%' . strtolower($searchString) . '%';
 
         $stmt = $this->database->connect()->prepare('
-            SELECT * FROM entry_list 
-            WHERE 
-                LOWER(user_name) LIKE :search OR 
-                entry_id::TEXT LIKE :search OR  -- rzutowanie entry_id na tekst
-                LOWER(location) LIKE :search OR 
-                amount::TEXT LIKE :search       -- rzutowanie amount na tekst
+        SELECT user_name, entry_id, location, amount 
+        FROM entry_list 
+        WHERE 
+            LOWER(user_name) LIKE :search OR 
+            entry_id::TEXT LIKE :search OR  -- rzutowanie entry_id na tekst
+            LOWER(location) LIKE :search OR 
+            amount::TEXT LIKE :search       -- rzutowanie amount na tekst
         ');
 
         $stmt->bindParam(':search', $searchString, PDO::PARAM_STR);

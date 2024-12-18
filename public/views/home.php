@@ -106,7 +106,7 @@
                             <td><?= htmlspecialchars($entry->getAmount()); ?></td>
                             <td class="edit">
                                 <!-- Link do usunięcia wpisu -->
-                                <a href="deleteEntry?entryId=<?= urlencode($entry->getEntryId()); ?>"
+                                <a href="deleteEntry?id=<?= urlencode($entry->getId()); ?>"
                                    onclick="return confirm('Czy na pewno chcesz usunąć ten wpis?');">
                                     <p>Usuń</p>
                                 </a>
@@ -134,7 +134,7 @@
         <td class="amount">amount</td>
         <td class="edit">
             <!-- Link do usunięcia wpisu -->
-            <a href="deleteEntry?entryId=<?= urlencode($entry->getEntryId()); ?>"
+            <a href="deleteEntry?id=<?= urlencode($entry->getId()); ?>"
                onclick="return confirm('Czy na pewno chcesz usunąć ten wpis?');">
                 <p>Usuń</p>
             </a>

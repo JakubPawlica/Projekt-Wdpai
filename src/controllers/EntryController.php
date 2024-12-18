@@ -39,6 +39,7 @@ class EntryController extends AppController
 
                 // Utwórz wpis
                 $entry = new Entry(
+                    null,
                     $user['name'] . ' ' . $user['surname'], // user_name
                     $_POST['entry_id'],                    // entry_id
                     $_POST['location'],                    // location
@@ -67,12 +68,12 @@ class EntryController extends AppController
 
         if ($id === null || !is_numeric($id)) {
             // Obsługa błędu, jeśli nie przekazano poprawnego ID
-            header('Location: /home');
-            exit;
+            $this->messages[] = "Nieprawidłowy identyfikator wpisu.";
+            return $this->render('home', ['messages' => $this->messages]);
         }
 
         // Wywołaj repozytorium w celu usunięcia wpisu
-        $this->entryRepository->deleteEntryById((int)$id);
+        $this->entryRepository->deleteEntry((int)$id);
 
         // Przekieruj z powrotem na stronę home
         header('Location: /home');
@@ -110,8 +111,7 @@ class EntryController extends AppController
 
     public function exportToExcel()
     {
-        $entryRepository = new EntryRepository();
-        $entries = $entryRepository->getAllEntries(); // Pobierz wszystkie dane
+        $entries = $this->entryRepository->getAllEntries(); // Pobierz wszystkie dane
 
         // Dynamiczna nazwa pliku na podstawie daty
         $filename = 'Wpisy_' . date('Y-m-d') . '.xls';
@@ -124,10 +124,10 @@ class EntryController extends AppController
         // Otwórz bufor
         $output = fopen('php://output', 'w');
 
-        // Dodaj nagłówki kolumn
-        fputcsv($output, ['Użytkownik', 'ID', 'Lokacja', 'Ilość'], "\t");
+        // Dodaj nagłówki kolumn (bez ID)
+        fputcsv($output, ['Użytkownik', 'ID wpisu', 'Lokacja', 'Ilość'], "\t");
 
-        // Dodaj dane
+        // Dodaj dane (bez ID rekordu)
         foreach ($entries as $entry) {
             fputcsv($output, [
                 $entry->getUserName(),
