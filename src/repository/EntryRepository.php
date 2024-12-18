@@ -66,13 +66,22 @@ class EntryRepository extends Repository
         return $result;
     }
 
+    public function deleteEntryById(int $id): void
+    {
+        // Usuwamy wpis na podstawie id w bazie danych
+        $stmt = $this->database->connect()->prepare("DELETE FROM entry_list WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    /* Niepoprawna funkcja DELETE ENTRY
     public function deleteEntry(int $entryId): void
     {
         $query = "DELETE FROM entry_list WHERE entry_id = :entryId";
         $stmt = $this->database->connect()->prepare($query);
         $stmt->bindParam(':entryId', $entryId, PDO::PARAM_INT);
         $stmt->execute();
-    }
+    }*/
 
     public function getEntriesCount(): int
     {
@@ -100,6 +109,21 @@ class EntryRepository extends Repository
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addEntryFromImport(string $userName, int $entryId, string $location, float $amount, int $assignedById): void
+    {
+        $stmt = $this->database->connect()->prepare("
+    INSERT INTO entry_list (user_name, entry_id, location, amount, id_assigned_by) 
+    VALUES (?, ?, ?, ?, ?) ");
+
+        $stmt->execute([
+            $userName,
+            $entryId,
+            $location,
+            $amount,
+            $assignedById
+        ]);
     }
 
 }

@@ -62,18 +62,17 @@ class EntryController extends AppController
     {
         $this->redirectIfNotAuthenticated(); // Upewnij się, że użytkownik jest zalogowany
 
-        // Pobierz parametr entryId z URL
-        $entryId = $_GET['entryId'] ?? null;
+        // Pobierz parametr id z URL
+        $id = $_GET['id'] ?? null;
 
-        if ($entryId === null || !is_numeric($entryId)) {
+        if ($id === null || !is_numeric($id)) {
             // Obsługa błędu, jeśli nie przekazano poprawnego ID
             header('Location: /home');
             exit;
         }
 
         // Wywołaj repozytorium w celu usunięcia wpisu
-        $entryRepository = new EntryRepository();
-        $entryRepository->deleteEntry((int)$entryId);
+        $this->entryRepository->deleteEntryById((int)$id);
 
         // Przekieruj z powrotem na stronę home
         header('Location: /home');
@@ -109,6 +108,94 @@ class EntryController extends AppController
         }
     }
 
+    public function exportToExcel()
+    {
+        $entryRepository = new EntryRepository();
+        $entries = $entryRepository->getAllEntries(); // Pobierz wszystkie dane
+
+        // Dynamiczna nazwa pliku na podstawie daty
+        $filename = 'Wpisy_' . date('Y-m-d') . '.xls';
+
+        // Ustawienia dla nagłówków HTTP
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        // Otwórz bufor
+        $output = fopen('php://output', 'w');
+
+        // Dodaj nagłówki kolumn
+        fputcsv($output, ['Użytkownik', 'ID', 'Lokacja', 'Ilość'], "\t");
+
+        // Dodaj dane
+        foreach ($entries as $entry) {
+            fputcsv($output, [
+                $entry->getUserName(),
+                $entry->getEntryId(),
+                $entry->getLocation(),
+                $entry->getAmount()
+            ], "\t");
+        }
+
+        fclose($output);
+        exit;
+    }
+
+    public function importFromExcel()
+    {
+        $this->redirectIfNotAuthenticated(); // Upewnij się, że użytkownik jest zalogowany
+
+        // Sprawdź, czy użytkownik ma aktywną sesję
+        if (isset($_COOKIE['user_token'])) {
+            $userRepository = new UserRepository();
+            $user = $userRepository->getUserByToken($_COOKIE['user_token']);
+
+            if (!$user) {
+                die("Nie udało się pobrać danych użytkownika.");
+            }
+
+            // Pobierz ID zalogowanego użytkownika
+            $assignedById = $user['id'];
+        } else {
+            die("Brak aktywnej sesji użytkownika.");
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['importFile'])) {
+            $fileTmpPath = $_FILES['importFile']['tmp_name'];
+            $fileType = mime_content_type($fileTmpPath);
+
+            // Sprawdź typ pliku
+            if ($fileType !== 'text/plain' && $fileType !== 'text/csv') {
+                die("Błędny typ pliku. Proszę przesłać plik CSV.");
+            }
+
+            // Wczytaj plik
+            $file = fopen($fileTmpPath, 'r');
+            $entryRepository = new EntryRepository();
+
+            // Pomijamy pierwszy wiersz (nagłówki)
+            fgetcsv($file);
+
+            // Przetwarzaj wiersze
+            while (($data = fgetcsv($file, 1000, "\t")) !== false) {
+                $userName = $data[0];
+                $entryId = (int)$data[1];
+                $location = $data[2];
+                $amount = (float)$data[3];
+
+                // Zapisz dane
+                $entryRepository->addEntryFromImport($userName, $entryId, $location, $amount, $assignedById);
+            }
+
+            fclose($file);
+
+            // Przekierowanie z komunikatem
+            header("Location: manage?success=imported");
+            exit;
+        } else {
+            die("Nie przesłano żadnego pliku.");
+        }
+    }
 
 }
 

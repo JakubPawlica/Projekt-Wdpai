@@ -21,6 +21,11 @@ class DefaultController extends AppController {
         $this->render('404');
     }
 
+    public function manage(){
+        $this->redirectIfNotAuthenticated();
+        $this->render('manage');
+    }
+
     public function home()
     {
         $this->redirectIfNotAuthenticated(); // Upewniamy się, że użytkownik jest zalogowany

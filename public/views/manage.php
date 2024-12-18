@@ -159,50 +159,28 @@
             <li><i class="fa-regular fa-user"></i>Profil</li>
             <a href="home"><li><i class="fa-solid fa-list"></i>Lista wpisów</li></a>
             <a href="addEntry"><li><i class="fa-solid fa-plus"></i>Dodaj wpis</li></a>
-            <a href="filter"><li><i class="fa-solid fa-magnifying-glass"></i>Filtruj wpisy</li></a>
+            <a href="filter"><li><i class="fa-solid fa-database"></i></i>Zarządzaj</li></a>
             <a href="logout"><li><i class="fa-solid fa-door-open"></i></i>Wyloguj</li></a>
         </ul>
     </aside>
     <main>
-        <h1>Filtruj wpisy</h1>
+        <h1>Zarządzaj bazą wpisów</h1>
         <div class="add-menu">
             <div class="fill-one">
-                Uzupełnij pola
+                Zarządzaj bazą
             </div>
             <div class="gaps-one">
-                <form action="home" method="GET">
-
-                    <div>
-                        <div class="input-box">
-                            <input type="text" name="id" required placeholder="ID">
-                        </div>
-                        <div class="input-box">
-                            <input type="text" name="location" required placeholder="Lokalizacja">
-                        </div>
-                        <div class="input-box">
-                            <input type="text" name="amount" required placeholder="Ilość">
-                        </div>
-                        <div class="input-box">
-                            <input type="text" name="username" required placeholder="Nazwa użytkownika">
-                        </div>
+                <form action="/exportToExcel" method="GET">
+                    <div class="buttons">
+                        <button type="submit" class="bottom-btn">Eksport</button>
                     </div>
+                </form>
 
-                    <div>
-                        <div class="fill-two">
-                            Tylko moje rekordy
-                        </div>
-
-                        <label class="switch">
-                            <input type="checkbox" name="onlyMine" value="1">
-                            <span class="slider round"></span>
-                        </label>
-
-                        <div class="buttons">
-                            <button type="submit" class="bottom-btn">Zatwierdź</button>
-                            <a href="filterReset" class="bottom-btn" style="text-align: center; line-height: 60px;">Wyczyść</a>
-                        </div>
+                <form action="/importFromExcel" method="POST" enctype="multipart/form-data">
+                    <div class="buttons">
+                        <input type="file" name="importFile" accept=".xls,.csv" required>
+                        <button type="submit" class="bottom-btn">Import</button>
                     </div>
-
                 </form>
             </div>
         </div>     
