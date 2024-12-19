@@ -26,7 +26,12 @@ class ProfileController extends AppController
             exit;
         }
 
-        $this->render('profile', ['user' => $user]);
+        // Przekazanie danych użytkownika, w tym imienia i nazwiska do widoku
+        $this->render('profile', [
+            'user' => $user,
+            'name' => $user['name'],
+            'surname' => $user['surname']
+        ]);
     }
 
     public function updateProfile()

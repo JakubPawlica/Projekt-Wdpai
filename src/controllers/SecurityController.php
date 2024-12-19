@@ -22,6 +22,18 @@ class SecurityController extends AppController
             return $this->render('loginpage', ['messages' => ['Użytkownik o podanym adresie email nie istnieje!']]);
         }
 
+        // Bezpośrednie sprawdzenie zablokowania w bazie danych
+        $stmt = $this->database->connect()->prepare('
+        SELECT is_blocked FROM users WHERE email = :email
+        ');
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result && $result['is_blocked']) { // Jeśli is_blocked jest true
+            return $this->render('loginpage', ['messages' => ['Konto zostało zablokowane']]);
+        }
+
         if($user->getEmail() !== $email) {
             return $this->render('loginpage', ['messages' => ['Użytkownik o podanym adresie email nie istnieje!']]);
         }
@@ -78,8 +90,11 @@ class SecurityController extends AppController
             $this->render('registerpage', ['messages' => 'Konto już istnieje']);
         }
 
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/loginpage");
+        // Przypisz rolę 'worker' nowemu użytkownikowi
+        $userRepository->assignDefaultRole($user->getId());  // Przypisanie roli 'worker'
+
+        // Przekierowanie na stronę logowania po pomyślnej rejestracji
+        header("Location: /loginpage");
         exit;
     }
 

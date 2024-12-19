@@ -193,21 +193,6 @@ footer {
     margin-top: 2em;
 }
 
-.searchTerm {
-    width: 28%;
-    border: 3px solid rgb(110,0,255);
-    border-right: none;
-    padding: 5px;
-    height: 24px;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    color: #9DBFAF;
-}
-
-.searchTerm:focus{
-    color: rgb(0, 0, 0);
-}
-
 .searchButton {
     width: 44px;
     height: 40px;

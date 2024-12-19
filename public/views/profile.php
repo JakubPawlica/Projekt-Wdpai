@@ -1,3 +1,17 @@
+
+<?php
+require_once __DIR__.'/../../src/repository/UserRepository.php';
+
+$userRepository = new UserRepository();
+$isAdmin = false;
+
+// Sprawdź, czy użytkownik jest zalogowany
+if (isset($_COOKIE['user_token'])) {
+    $userToken = $_COOKIE['user_token'];
+    $isAdmin = $userRepository->isAdmin($userToken); // Sprawdza, czy użytkownik jest adminem
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +62,7 @@
             padding-left: 0.5vw;
             font-size: 17px;
             margin-right: 50px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             margin-top: 10px;
         }
 
@@ -65,9 +79,9 @@
 <body>
     <nav>
         <button onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-        <p>Witaj! Aby dokonać zmian na wpisach lub dodać wpisy skorzystać z panelu akcji po lewej.</p>
+        <p>Witaj! Aby dokonać zmian na wpisach lub dodać wpisy skorzystaj z panelu akcji po lewej.</p>
         <div class="user-info">
-            <p>Jan Kowalski</p>
+            <p><?= htmlspecialchars($name) . ' ' . htmlspecialchars($surname); ?></p>
             <i class="fa-regular fa-circle-user"></i>
         </div>
     </nav>
@@ -81,6 +95,9 @@
             <a href="home"><li><i class="fa-solid fa-list"></i>Lista wpisów</li></a>
             <a href="addEntry"><li><i class="fa-solid fa-plus"></i>Dodaj wpis</li></a>
             <a href="manage"><li><i class="fa-solid fa-database"></i></i>Zarządzaj</li></a>
+            <?php if ($isAdmin): ?>
+                <a href="adminpage"><li><i class="fa-solid fa-lock-open"></i>Admin</li></a>
+            <?php endif; ?>
             <a href="logout"><li><i class="fa-solid fa-door-open"></i></i>Wyloguj</li></a>
         </ul>
     </aside>

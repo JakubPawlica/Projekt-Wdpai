@@ -21,9 +21,29 @@ class DefaultController extends AppController {
         $this->render('404');
     }
 
-    public function manage(){
-        $this->redirectIfNotAuthenticated();
-        $this->render('manage');
+    public function manage()
+    {
+        $this->redirectIfNotAuthenticated(); // Sprawdzamy, czy użytkownik jest zalogowany
+
+        // Pobierz dane użytkownika z tokena sesji
+        if (isset($_COOKIE['user_token'])) {
+            $userRepository = new UserRepository();
+            $user = $userRepository->getUserByToken($_COOKIE['user_token']);
+
+            if (!$user) {
+                header("Location: /loginpage");
+                exit;
+            }
+
+            // Przekazujemy dane użytkownika do widoku, aby móc wyświetlić imię i nazwisko
+            $this->render('manage', [
+                'name' => $user['name'],
+                'surname' => $user['surname']
+            ]);
+        } else {
+            header("Location: /loginpage");
+            exit;
+        }
     }
 
     public function home()

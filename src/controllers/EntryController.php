@@ -21,6 +21,18 @@ class EntryController extends AppController
         $this->redirectIfNotAuthenticated();
 
         if ($this->isGet()) {
+            // Sprawdzenie, czy użytkownik jest zalogowany
+            if (isset($_COOKIE['user_token'])) {
+                $userRepository = new UserRepository();
+                $user = $userRepository->getUserByToken($_COOKIE['user_token']);
+
+                if ($user) {
+                    return $this->render('addEntry', [
+                        'name' => $user['name'],
+                        'surname' => $user['surname']
+                    ]);
+                }
+            }
             return $this->render('addEntry');
         }
 

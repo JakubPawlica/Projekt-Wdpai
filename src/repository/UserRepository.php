@@ -2,6 +2,7 @@
 
 require_once 'Repository.php';
 require_once __DIR__.'/../models/User.php';
+require_once 'RoleRepository.php';
 
 class UserRepository extends Repository
 {
@@ -31,43 +32,39 @@ class UserRepository extends Repository
 
     public function addUser(User $user)
     {
+        // Wstawienie danych do tabeli users_details
         $stmt = $this->database->connect()->prepare('
-            INSERT INTO users_details (name, surname)
-            VALUES (?, ?)
-        ');
+        INSERT INTO users_details (name, surname)
+        VALUES (?, ?)
+        RETURNING id
+    ');
 
         $stmt->execute([
             $user->getName(),
             $user->getSurname(),
         ]);
 
+        // Pobranie ID nowo dodanego użytkownika
+        $userDetailsId = $stmt->fetchColumn();  // Pobiera ID zwrócone przez RETURNING
+
+        // Wstawienie danych do tabeli users
         $stmt = $this->database->connect()->prepare('
-            INSERT INTO users (email, password, id_user_details)
-            VALUES (?, ?, ?)
-        ');
+        INSERT INTO users (email, password, id_user_details)
+        VALUES (?, ?, ?)
+        RETURNING id
+    ');
 
         $stmt->execute([
             $user->getEmail(),
             $user->getPassword(),
-            $this->getUserDetailsId($user)
+            $userDetailsId
         ]);
-    }
 
-    public function getUserDetailsId(User $user): int
-    {
-        $stmt = $this->database->connect()->prepare('
-        SELECT * FROM public.users_details WHERE name = :name AND surname = :surname
-    ');
+        // Pobranie ID nowo dodanego użytkownika
+        $userId = $stmt->fetchColumn();  // Pobiera ID nowego użytkownika
 
-        $name = $user->getName();
-        $surname = $user->getSurname();
-
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
-        $stmt->execute();
-
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $data['id'];
+        // Przypisanie roli 'worker' do nowo utworzonego użytkownika
+        $this->assignDefaultRole($userId);  // Wywołanie metody przypisującej rolę 'worker'
     }
 
     public function getUserByToken(string $token): ?array
@@ -115,6 +112,81 @@ class UserRepository extends Repository
         $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
         $stmt->bindParam(':id', $userDetailsId, PDO::PARAM_INT);
         $stmt->execute();
+    }
+
+    public function getAllUsers(): array
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT id, email
+        FROM users
+    ');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function blockUser(int $userId): void
+    {
+        $stmt = $this->database->connect()->prepare('
+        UPDATE users
+        SET is_blocked = TRUE
+        WHERE id = :id
+    ');
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public function deleteUser(int $userId): void
+    {
+        $stmt = $this->database->connect()->prepare('
+        DELETE FROM users
+        WHERE id = :id
+    ');
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public function doesUserExist(int $userId): bool
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT COUNT(*) FROM users WHERE id = :id
+    ');
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function unblockUser(int $userId): void
+    {
+        $stmt = $this->database->connect()->prepare('
+        UPDATE users
+        SET is_blocked = FALSE
+        WHERE id = :id
+    ');
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public function isAdmin($token) {
+        $query = "
+        SELECT r.name
+        FROM users u
+        JOIN user_roles ur ON u.id = ur.user_id
+        JOIN roles r ON ur.role_id = r.id
+        WHERE u.session_token = :token AND r.name = 'admin'
+    ";
+        $stmt = $this->database->connect()->prepare($query);
+        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;  // Jeśli zwróci więcej niż 0 wierszy, to użytkownik jest adminem
+    }
+
+    public function assignDefaultRole(int $userId): void
+    {
+        // Tworzymy instancję RoleRepository i wywołujemy metodę assignRole
+        $roleRepository = new RoleRepository();
+        $roleRepository->assignRole($userId, 'worker');  // Wywołanie metody assignRole, aby przypisać rolę 'worker'
     }
 
 }
