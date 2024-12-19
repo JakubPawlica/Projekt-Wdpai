@@ -50,10 +50,10 @@
         </div>
         <button onclick="toggleSidebar()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         <ul>
-            <li><i class="fa-regular fa-user"></i>Profil</li>
+            <a href="profile"><li><i class="fa-regular fa-user"></i>Profil</li></a>
             <a href="home"><li><i class="fa-solid fa-list"></i>Lista wpisów</li></a>
             <a href="addEntry"><li><i class="fa-solid fa-plus"></i>Dodaj wpis</li></a>
-            <a href="filter"><li><i class="fa-solid fa-magnifying-glass"></i>Filtruj wpisy</li></a>
+            <a href="manage"><li><i class="fa-solid fa-database"></i></i>Zarządzaj</li></a>
             <a href="logout"><li><i class="fa-solid fa-door-open"></i></i>Wyloguj</li></a>
         </ul>
     </aside>
@@ -92,7 +92,7 @@
         </div>     
     </main>
     <footer>
-        Ostatnia aktualizacja 25.11.24
+        Ostatnia aktualizacja 19.12.24
     </footer>
 </body>
 </html>

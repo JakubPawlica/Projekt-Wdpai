@@ -3,6 +3,7 @@
 require_once 'AppController.php';
 require_once __DIR__.'/../models/Entry.php';
 require_once __DIR__.'/../repository/EntryRepository.php';
+require_once __DIR__.'/../repository/UserRepository.php';
 
 class EntryController extends AppController
 {
@@ -143,6 +144,178 @@ class EntryController extends AppController
 
     public function importFromExcel()
     {
+        $this->redirectIfNotAuthenticated();
+
+        if (isset($_COOKIE['user_token'])) {
+            $userRepository = new UserRepository();
+            $user = $userRepository->getUserByToken($_COOKIE['user_token']);
+
+            if (!$user) {
+                die("Nie udało się pobrać danych użytkownika.");
+            }
+
+            $assignedById = $user['id'];
+        } else {
+            die("Brak aktywnej sesji użytkownika.");
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['importFile'])) {
+            $fileTmpPath = $_FILES['importFile']['tmp_name'];
+            $fileExtension = pathinfo($_FILES['importFile']['name'], PATHINFO_EXTENSION);
+
+            if (!in_array($fileExtension, ['xls', 'xlsx'])) {
+                die("Błędne rozszerzenie pliku. Proszę przesłać plik w formacie XLS lub XLSX.");
+            }
+
+            $entryRepository = new EntryRepository();
+            $entryRepository->clearTable();
+
+            if ($fileExtension === 'xls') {
+                // Odczyt dla plików .xls
+                $file = fopen($fileTmpPath, 'r');
+
+                // Pomijamy nagłówki
+                fgetcsv($file);
+
+                while (($data = fgetcsv($file, 1000, "\t")) !== false) {
+                    $userName = $data[0];
+                    $entryId = (int)$data[1];
+                    $location = $data[2];
+                    $amount = (float)$data[3];
+
+                    $entryRepository->addEntryFromImport($userName, $entryId, $location, $amount, $assignedById);
+                }
+
+                fclose($file);
+            } elseif ($fileExtension === 'xlsx') {
+                $zip = new ZipArchive();
+                if ($zip->open($fileTmpPath) === TRUE) {
+                    // Odczytaj dane z `xl/sharedStrings.xml` (tekstowe wartości komórek)
+                    $sharedStringsXML = $zip->getFromName('xl/sharedStrings.xml');
+                    $sharedStrings = [];
+                    if ($sharedStringsXML) {
+                        $sharedStringsDoc = simplexml_load_string($sharedStringsXML);
+                        foreach ($sharedStringsDoc->si as $value) {
+                            $sharedStrings[] = (string)$value->t;
+                        }
+                    }
+
+                    // Odczytaj dane z pierwszego arkusza `xl/worksheets/sheet1.xml`
+                    $sheetXML = $zip->getFromName('xl/worksheets/sheet1.xml');
+                    if ($sheetXML) {
+                        $sheetDoc = simplexml_load_string($sheetXML);
+
+                        foreach ($sheetDoc->sheetData->row as $row) {
+                            $cells = [];
+                            foreach ($row->c as $cell) {
+                                // Jeśli komórka odwołuje się do sharedStrings, pobierz wartość z tablicy
+                                if (isset($cell->v) && $cell['t'] == 's') {
+                                    $cells[] = $sharedStrings[(int)$cell->v];
+                                } elseif (isset($cell->v)) {
+                                    $cells[] = (string)$cell->v;
+                                } else {
+                                    $cells[] = null; // Jeśli brak wartości, dodaj null
+                                }
+                            }
+
+                            // Pomijamy pierwszy wiersz (nagłówki)
+                            if ($row['r'] == 1) {
+                                continue;
+                            }
+
+                            // Przypisz dane do zmiennych
+                            $userName = $cells[0] ?? null;
+                            $entryId = isset($cells[1]) ? (int)$cells[1] : null;
+                            $location = $cells[2] ?? null;
+                            $amount = isset($cells[3]) ? (float)$cells[3] : null;
+
+                            if ($userName && $entryId && $location !== null && $amount !== null) {
+                                $entryRepository->addEntryFromImport($userName, $entryId, $location, $amount, $assignedById);
+                            }
+                        }
+                    } else {
+                        die("Nie udało się odczytać zawartości arkusza w pliku XLSX.");
+                    }
+
+                    $zip->close();
+                } else {
+                    die("Nie udało się otworzyć pliku XLSX.");
+                }
+            }
+
+            header("Location: manage?success=imported");
+            exit;
+        } else {
+            die("Nie przesłano żadnego pliku.");
+        }
+    }
+
+    public function updateUserName()
+    {
+        if ($this->isPost()) {
+            try {
+                $userId = $_POST['id'] ?? null;
+                $newName = $_POST['name'] ?? null;
+                $newSurname = $_POST['surname'] ?? null;
+
+                if (!$userId || !$newName || !$newSurname) {
+                    throw new Exception("Brak wymaganych danych.");
+                }
+
+                $userRepository = new UserRepository();
+                $userRepository->updateUserDetails($userId, $newName, $newSurname);
+
+                $entryRepository = new EntryRepository();
+                $entryRepository->updateUserNameInEntries($userId);
+
+                // Przekierowanie z parametrem success
+                header("Location: /profile?success=true");
+                exit;
+
+            } catch (Exception $e) {
+                // Przekierowanie z komunikatem o błędzie
+                header("Location: /profile?success=false&error=" . urlencode($e->getMessage()));
+                exit;
+            }
+        }
+    }
+
+    /*działa
+    public function updateUserName()
+    {
+        if ($this->isPost()) {
+            $userId = $_POST['id'] ?? null;
+            $newName = $_POST['name'] ?? null;
+            $newSurname = $_POST['surname'] ?? null;
+
+            if (!$userId || !$newName || !$newSurname) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Brak wymaganych danych']);
+                return;
+            }
+
+            try {
+                $userRepository = new UserRepository();
+                $userRepository->updateUserDetails($userId, $newName, $newSurname);
+
+                $entryRepository = new EntryRepository();
+                $entryRepository->updateUserNameInEntries($userId);
+
+                http_response_code(200);
+                echo json_encode(['message' => 'Dane użytkownika zostały zaktualizowane.']);
+            } catch (Exception $e) {
+                error_log('Błąd: ' . $e->getMessage());
+                http_response_code(500);
+                echo json_encode(['error' => 'Wystąpił błąd podczas aktualizacji danych.']);
+            }
+        }
+    }*/
+
+}
+
+    /*Metoda działająca z dnia 18.12 16:46
+    public function importFromExcel()
+    {
         $this->redirectIfNotAuthenticated(); // Upewnij się, że użytkownik jest zalogowany
 
         // Sprawdź, czy użytkownik ma aktywną sesję
@@ -195,10 +368,7 @@ class EntryController extends AppController
         } else {
             die("Nie przesłano żadnego pliku.");
         }
-    }
-
-}
-
+    }*/
 
 
 /*Wersja 2 godzina 23:23

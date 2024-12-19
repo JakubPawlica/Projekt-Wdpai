@@ -123,6 +123,29 @@ class EntryRepository extends Repository
         ]);
     }
 
+    public function clearTable(): void
+    {
+        $stmt = $this->database->connect()->prepare("DELETE FROM entry_list");
+        $stmt->execute();
+    }
+
+    public function updateUserNameInEntries(int $userId): void
+    {
+        $query = "
+        UPDATE entry_list
+        SET user_name = (
+            SELECT CONCAT(users_details.name, ' ', users_details.surname)
+            FROM users_details
+            WHERE users_details.id = entry_list.id_assigned_by
+        )
+        WHERE id_assigned_by = :userId;
+    ";
+
+        $stmt = $this->database->connect()->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
 }
 
 

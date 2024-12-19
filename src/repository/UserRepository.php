@@ -103,4 +103,18 @@ class UserRepository extends Repository
         return (int) $result['count'];
     }
 
+    public function updateUserDetails(int $userDetailsId, string $name, string $surname): void
+    {
+        $stmt = $this->database->connect()->prepare('
+        UPDATE users_details
+        SET name = :name, surname = :surname
+        WHERE id = :id
+    ');
+
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $userDetailsId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
 }

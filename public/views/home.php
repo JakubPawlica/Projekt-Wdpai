@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
     <script src="public/views/mobile_sidebar.js" defer></script>
     <script type="text/javascript" src="public/views/search.js" defer></script>
+    <script src="public/views/updateUsername.js"></script>
     <title>Witaj w aktulizatorze MK18!</title>
     <style>
         a {
@@ -60,10 +61,10 @@
         </div>
         <button onclick="toggleSidebar()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         <ul>
-            <li><i class="fa-regular fa-user"></i>Profil</li>
+            <a href="profile"><li><i class="fa-regular fa-user"></i>Profil</li></a>
             <a href="home"><li><i class="fa-solid fa-list"></i>Lista wpisów</li></a>
             <a href="addEntry"><li><i class="fa-solid fa-plus"></i>Dodaj wpis</li></a>
-            <a href="filter"><li><i class="fa-solid fa-magnifying-glass"></i>Filtruj wpisy</li></a>
+            <a href="manage"><li><i class="fa-solid fa-database"></i></i>Zarządzaj</li></a>
             <a href="logout"><li><i class="fa-solid fa-door-open"></i></i>Wyloguj</li></a>
         </ul>
     </aside>
@@ -121,7 +122,7 @@
         </div>
     </main>
     <footer>
-        Ostatnia aktualizacja 16.12.24
+        Ostatnia aktualizacja 19.12.24
     </footer>
 </body>
 </html>

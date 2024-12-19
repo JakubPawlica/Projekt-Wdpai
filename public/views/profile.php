@@ -10,9 +10,7 @@
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
     <script src="mobile_sidebar.js" defer></script>
     <title>Witaj w aktulizatorze MK18!</title>
-    
     <style>
-
         a {
             text-decoration: none;
             color: white;
@@ -37,58 +35,31 @@
         }
 
         .gaps-one > form {
-            margin-top: 20px;
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .input-box > input {
-            margin-bottom: 1vw;
-        }
-
-        .buttons {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 3em;
-        }
-
-        .bottom-btn {
-            width: 160px;
+            border: none;
+            border-radius: 0.4vw;
+            background-color: rgb(212, 212, 212, 0.4);
             height: 60px;
-            border-radius: 40px;
-            border: 3px solid rgb(110,0,255);
+            width: 400px;
+            padding-left: 0.5vw;
             font-size: 17px;
-            background-color: rgb(110,0,255);
-            color: white;
+            margin-right: 50px;
+            margin-bottom: 40px;
+            margin-top: 10px;
         }
 
-        .bottom-btn:hover {
-            background-color: white;
-            color: rgb(110,0,255);
-        }
-
-        .danger-section {
-            margin-top: 50px;
+        .input-box {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
         }
 
-        .danger {
-            color: rgb(110,0,255);
-            font-weight: bold;
-            font-size: 17px;
+        .input-box > label {
+            margin-right: 10px;
         }
-
-        .danger-sign {
-            color: rgb(110,0,255);
-            font-size: 30px;
-            margin-bottom: 15px;
-        }
-
     </style>
 </head>
 <body>
@@ -114,29 +85,40 @@
         </ul>
     </aside>
     <main>
-        <h1>Zarządzaj bazą wpisów</h1>
+        <h1>Profil użytkownika</h1>
         <div class="add-menu">
             <div class="fill-one">
-                Zarządzaj bazą
+                Zmień swoje dane
             </div>
             <div class="gaps-one">
-                <form action="/exportToExcel" method="GET">
-                    <div class="buttons">
-                        <button type="submit" class="bottom-btn">Eksport</button>
+                <?php if (isset($messages)): ?>
+                    <ul>
+                        <?php foreach ($messages as $message): ?>
+                            <li><?= htmlspecialchars($message) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+                <?php if (isset($_GET['success']) && $_GET['success'] === 'true'): ?>
+                    <p style="color: green;">Dane zostały pomyślnie zaktualizowane!</p>
+                <?php endif; ?>
+
+                <form action="/updateUserName" method="POST">
+
+                    <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
+
+                    <div class="input-box">
+                        <label for="name">Imię:</label>
+                        <input type="text" id="name" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
                     </div>
-                </form>
-            </div>
-            <div class="gaps-one">
-                <form action="/importFromExcel" method="POST" enctype="multipart/form-data">
-                    <div class="buttons">
-                        <button type="submit" class="bottom-btn">Import</button>
-                        <input type="file" name="importFile" accept=".xls,.xlsx" required>
+
+                    <div class="input-box">
+                        <label for="surname">Nazwisko:</label>
+                        <input type="text" id="surname" name="surname" value="<?= htmlspecialchars($user['surname']) ?>" required>
                     </div>
+
+                    <button type="submit" class="add-btn">Zatwierdź</button>
                 </form>
-            </div>
-            <div class="danger-section">
-                <i class="fa-solid fa-circle-exclamation danger-sign"></i>
-                <p class="danger">Dokonując importu zastępujesz obecną bazę wpisów bazą importowaną. Utracisz wszystkie dane obecnej bazy wpisów.</p>
             </div>
         </div>     
     </main>
