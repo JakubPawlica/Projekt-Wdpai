@@ -132,6 +132,38 @@ if (isset($_COOKIE['user_token'])) {
             opacity: 1;
         }
 
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: rgb(110,0,255);
+            color:white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .view-info {
+            margin-bottom: 10px;
+        }
+
+        .space-under-table {
+            margin-bottom: 30px;
+        }
+
     </style>
 </head>
 <body>
@@ -206,6 +238,30 @@ if (isset($_COOKIE['user_token'])) {
                 </form>
             </div>
 
+            <h2 class="view-info">Lista niezablokowanych użytkowników</h2>
+            <?php if (!empty($unblockedUsers)): ?>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($unblockedUsers as $user): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($user['email']) ?></td>
+                            <td><?= htmlspecialchars($user['name']) ?></td>
+                            <td><?= htmlspecialchars($user['surname']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>Nie znaleziono użytkowników.</p>
+            <?php endif; ?>
+
             <!-- Odblokowywanie użytkownika -->
             <div class="gaps-one">
                 <form action="/unblockUser" method="POST">
@@ -227,10 +283,34 @@ if (isset($_COOKIE['user_token'])) {
                 </form>
             </div>
 
+            <h2 class="view-info">Lista zablokowanych użytkowników</h2>
+            <?php if (!empty($blockedUsers)): ?>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($blockedUsers as $user): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($user['email']) ?></td>
+                            <td><?= htmlspecialchars($user['name']) ?></td>
+                            <td><?= htmlspecialchars($user['surname']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="space-under-table">Nie znaleziono użytkowników.</p>
+            <?php endif; ?>
+
             <!-- Przyznawanie roli admina -->
             <div class="gaps-one">
                 <form action="/grantAdmin" method="POST">
-                    <label for="grant-admin">Nadaj prawa administratora:</label>
+                    <label for="grant-admin" style="border-top: 2px solid #dddddd; padding-top: 30px">Nadaj prawa administratora:</label>
                     <div class="gaps-two">
                         <select name="user_id" id="grant-admin">
                             <option value="" disabled selected>Wybierz</option>

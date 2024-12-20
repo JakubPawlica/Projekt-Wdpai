@@ -32,12 +32,18 @@ class AdminController extends AppController
         // Pobierz wszystkich użytkowników
         $users = $this->getUsers();
 
-        // Przekaż dane użytkownika oraz listę użytkowników do widoku
+        // Pobierz zablokowanych i niezablokowanych użytkowników
+        $unblockedUsers = $userRepository->getUnblockedUsers();
+        $blockedUsers = $userRepository->getBlockedUsers();
+
+        // Przekaż dane użytkownika oraz listy do widoku
         return $this->render('adminpage', [
             'name' => $user['name'],
             'surname' => $user['surname'],
-            'userId' => $userId,  // Przekazanie ID użytkownika
-            'users' => $users
+            'userId' => $userId,
+            'users' => $users,
+            'unblockedUsers' => $unblockedUsers,
+            'blockedUsers' => $blockedUsers
         ]);
     }
 
@@ -133,6 +139,18 @@ class AdminController extends AppController
                 header("Location: /adminpage?error=missing_user"); // Błąd, brak użytkownika
             }
         }
+    }
+
+    private function getUnblockedUsers()
+    {
+        $userRepository = new UserRepository();
+        return $userRepository->getUnblockedUsers();
+    }
+
+    private function getBlockedUsers()
+    {
+        $userRepository = new UserRepository();
+        return $userRepository->getBlockedUsers();
     }
 
 }

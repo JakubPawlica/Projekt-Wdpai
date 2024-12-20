@@ -189,4 +189,20 @@ class UserRepository extends Repository
         $roleRepository->assignRole($userId, 'worker');  // Wywołanie metody assignRole, aby przypisać rolę 'worker'
     }
 
+    // Pobierz użytkowników niezablokowanych
+    public function getUnblockedUsers()
+    {
+        $stmt = $this->database->connect()->prepare("SELECT * FROM view_unblocked_users");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Pobierz użytkowników zablokowanych
+    public function getBlockedUsers()
+    {
+        $stmt = $this->database->connect()->prepare("SELECT * FROM view_blocked_users");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
