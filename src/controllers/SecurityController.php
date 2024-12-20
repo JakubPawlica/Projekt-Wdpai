@@ -87,11 +87,9 @@ class SecurityController extends AppController
         $userRepository = new UserRepository();
         $res = $userRepository->addUser($user);
         if(is_null($res)) {
-            $this->render('registerpage', ['messages' => 'Konto już istnieje']);
+            return $this->render('registerpage', ['messages' => 'Konto już istnieje']);
         }
-
-        // Przypisz rolę 'worker' nowemu użytkownikowi
-        $userRepository->assignDefaultRole($user->getId());  // Przypisanie roli 'worker'
+        //powyżej błąd
 
         // Przekierowanie na stronę logowania po pomyślnej rejestracji
         header("Location: /loginpage");

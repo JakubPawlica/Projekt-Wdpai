@@ -6,6 +6,41 @@ require_once 'RoleRepository.php';
 
 class UserRepository extends Repository
 {
+
+    public function getUser(string $email): ?User
+    {
+        $stmt = $this->database->connect()->prepare("
+        SELECT 
+            u.id AS user_id, 
+            u.email, 
+            u.password, 
+            ud.name, 
+            ud.surname 
+        FROM users u 
+        LEFT JOIN users_details ud 
+        ON u.id_user_details = ud.id 
+        WHERE u.email = :email
+    ");
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user === false) {
+            return null;
+        }
+
+        return new User(
+            $user['email'],
+            $user['password'],
+            $user['name'] ?? '',   // Obsługa braku `name`
+            $user['surname'] ?? '', // Obsługa braku `surname`
+            (int)$user['user_id']   // Użycie poprawnego aliasu z zapytania
+        );
+    }
+
+
+    /*
     public function getUser(string $email): ?User
     {
         $stmt = $this->database->connect()->prepare("SELECT * FROM users u LEFT JOIN users_details ud ON u.id_user_details = ud.id WHERE email = :email");
@@ -28,7 +63,7 @@ class UserRepository extends Repository
             $user['surname'],
             $id
         );
-    }
+    }*/
 
     public function addUser(User $user)
     {
@@ -65,6 +100,8 @@ class UserRepository extends Repository
 
         // Przypisanie roli 'worker' do nowo utworzonego użytkownika
         $this->assignDefaultRole($userId);  // Wywołanie metody przypisującej rolę 'worker'
+
+        return $userId;
     }
 
     public function getUserByToken(string $token): ?array
