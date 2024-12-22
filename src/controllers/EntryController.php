@@ -47,6 +47,33 @@ class EntryController extends AppController
                     return $this->render('addEntry', ['messages' => $this->messages]);
                 }
 
+                // Pobierz dane użytkownika w przypadku błędu przy walidacji formularza przekaże poprawnie dane do widoku
+                $name = $user['name'];
+                $surname = $user['surname'];
+
+                // Walidacja pól
+                $entryId = $_POST['entry_id'];
+                $amount = $_POST['amount'];
+
+                // Sprawdzanie, czy ID i ilość są liczbami całkowitymi i różne od zera
+                if (!filter_var($entryId, FILTER_VALIDATE_INT) || intval($entryId) === 0) {
+                    $this->messages[] = 'ID musi być liczbą całkowitą różną od zera.';
+                    return $this->render('addEntry', [
+                        'messages' => $this->messages,
+                        'name' => $name,
+                        'surname' => $surname
+                    ]);
+                }
+
+                if (!filter_var($amount, FILTER_VALIDATE_INT) || intval($amount) === 0) {
+                    $this->messages[] = 'Ilość musi być liczbą całkowitą różną od zera.';
+                    return $this->render('addEntry', [
+                        'messages' => $this->messages,
+                        'name' => $name,
+                        'surname' => $surname
+                    ]);
+                }
+
                 // Pobierz ID zalogowanego użytkownika
                 $assignedById = $user['id'];
 
