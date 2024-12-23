@@ -87,7 +87,7 @@ class SecurityController extends AppController
         $userRepository = new UserRepository();
         $res = $userRepository->addUser($user);
         if(is_null($res)) {
-            return $this->render('registerpage', ['messages' => 'Konto już istnieje']);
+            return $this->render('registerpage', ['messages' => ['Adres e-mail jest już zajęty.']]);
         }
         //powyżej błąd
 

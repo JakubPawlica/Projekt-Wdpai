@@ -67,6 +67,18 @@ class UserRepository extends Repository
 
     public function addUser(User $user)
     {
+        // Sprawdzenie, czy adres email już istnieje
+        $stmt = $this->database->connect()->prepare('
+        SELECT COUNT(*) FROM users WHERE email = ?
+        ');
+        $stmt->execute([$user->getEmail()]);
+        $emailCount = $stmt->fetchColumn();
+
+        if ($emailCount > 0) {
+            // Jeśli adres e-mail istnieje, zwróć null (lub możesz rzucić wyjątek)
+            return null;
+        }
+
         // Wstawienie danych do tabeli users_details
         $stmt = $this->database->connect()->prepare('
         INSERT INTO users_details (name, surname)

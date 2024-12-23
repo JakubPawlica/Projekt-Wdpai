@@ -52,6 +52,12 @@ if (isset($_COOKIE['user_token'])) {
             margin-bottom: 25px;
         }
 
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px; /* Opcjonalne - aby dodać trochę odstępu */
+        }
+
     </style>
 </head>
 <body>

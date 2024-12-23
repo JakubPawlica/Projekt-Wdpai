@@ -20,6 +20,108 @@ class EntryController extends AppController
     {
         $this->redirectIfNotAuthenticated();
 
+        // Obsługa żądania GET
+        if ($this->isGet()) {
+            if (isset($_COOKIE['user_token'])) {
+                $userRepository = new UserRepository();
+                $user = $userRepository->getUserByToken($_COOKIE['user_token']);
+
+                if ($user) {
+                    return $this->render('addEntry', [
+                        'name' => $user['name'],
+                        'surname' => $user['surname']
+                    ]);
+                }
+            }
+            return $this->render('addEntry');
+        }
+
+        // Obsługa żądania POST
+        if ($this->isPost()) {
+            $entryId = $_POST['entry_id'];
+            $amount = $_POST['amount'];
+            $location = $_POST['location'];
+
+            // Pobierz dane użytkownika z tokena
+            if (isset($_COOKIE['user_token'])) {
+                $userRepository = new UserRepository();
+                $user = $userRepository->getUserByToken($_COOKIE['user_token']);
+
+                if (!$user) {
+                    $this->messages[] = 'Nie udało się pobrać danych użytkownika.';
+                    return $this->render('addEntry', ['messages' => $this->messages]);
+                }
+            } else {
+                $this->messages[] = 'Brak aktywnej sesji użytkownika.';
+                return $this->render('addEntry', ['messages' => $this->messages]);
+            }
+
+            // Walidacja pól
+            if (!ctype_digit($entryId) && !preg_match('/^-?\d+$/', $entryId)) {
+                $this->messages[] = '<p class="error-message">ID musi być liczbą całkowitą różną od 0.</p>';
+                return $this->render('addEntry', [
+                    'messages' => $this->messages,
+                    'name' => $user['name'],
+                    'surname' => $user['surname']
+                ]);
+            }
+
+            if (!ctype_digit($amount) && !preg_match('/^-?\d+$/', $amount)) {
+                $this->messages[] = '<p class="error-message">Ilość musi być liczbą całkowitą różną od 0.</p>';
+                return $this->render('addEntry', [
+                    'messages' => $this->messages,
+                    'name' => $user['name'],
+                    'surname' => $user['surname']
+                ]);
+            }
+
+            try {
+                // Połączenie z bazą danych i rozpoczęcie transakcji
+                $pdo = $this->database->connect();
+                $pdo->beginTransaction();
+
+                $assignedById = $user['id'];
+
+                // Tworzenie wpisu
+                $entry = new Entry(
+                    null,
+                    $user['name'] . ' ' . $user['surname'], // user_name
+                    $entryId,                               // entry_id
+                    $location,                              // location
+                    $amount                                 // amount
+                );
+
+                // Dodanie wpisu do bazy danych
+                $this->entryRepository->addEntry($entry, $assignedById);
+
+                // Zatwierdzenie transakcji
+                $pdo->commit();
+
+                // Przekierowanie na stronę główną
+                header('Location: /home');
+                exit;
+            } catch (Exception $e) {
+                // Cofnięcie transakcji w przypadku błędu
+                if (isset($pdo) && $pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+
+                // Dodanie komunikatu o błędzie
+                $this->messages[] = 'Wystąpił błąd podczas dodawania wpisu: ' . $e->getMessage();
+                return $this->render('addEntry', [
+                    'messages' => $this->messages,
+                    'name' => $user['name'],
+                    'surname' => $user['surname']
+                ]);
+            }
+        }
+    }
+
+    /* METODA DODAWANIA WPISÓW BEZ TRANSAKCJI BAZODANOWYCH
+    public function addEntry()
+    {
+        $this->redirectIfNotAuthenticated();
+
         if ($this->isGet()) {
             // Sprawdzenie, czy użytkownik jest zalogowany
             if (isset($_COOKIE['user_token'])) {
@@ -97,7 +199,7 @@ class EntryController extends AppController
                 return $this->render('addEntry', ['messages' => $this->messages]);
             }
         }
-    }
+    }*/
 
     public function deleteEntry()
     {
