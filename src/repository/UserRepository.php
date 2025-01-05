@@ -247,11 +247,20 @@ class UserRepository extends Repository
     }
 
     // Pobierz użytkowników zablokowanych
+
     public function getBlockedUsers()
     {
         $stmt = $this->database->connect()->prepare("SELECT * FROM view_blocked_users");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getBlockedUsersEmails(): array
+    {
+        $stmt = $this->database->connect()->prepare("SELECT email FROM view_blocked_users");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }

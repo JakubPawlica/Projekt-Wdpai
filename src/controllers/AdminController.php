@@ -35,6 +35,7 @@ class AdminController extends AppController
         // Pobierz zablokowanych i niezablokowanych użytkowników
         $unblockedUsers = $userRepository->getUnblockedUsers();
         $blockedUsers = $userRepository->getBlockedUsers();
+        $blockedUsersEmails = $userRepository->getBlockedUsersEmails();
 
         // Przekaż dane użytkownika oraz listy do widoku
         return $this->render('adminpage', [
@@ -43,7 +44,8 @@ class AdminController extends AppController
             'userId' => $userId,
             'users' => $users,
             'unblockedUsers' => $unblockedUsers,
-            'blockedUsers' => $blockedUsers
+            'blockedUsers' => $blockedUsers,
+            'blockedUsersEmails' => $blockedUsersEmails
         ]);
     }
 
@@ -107,6 +109,33 @@ class AdminController extends AppController
 
     public function unblockUser()
     {
+        if (!isset($_POST['user_email'])) {
+            header("Location: /adminpage?error=missing_user");
+            exit;
+        }
+
+        $userEmail = $_POST['user_email'];
+        $userRepository = new UserRepository();
+
+        // Sprawdź, czy podany email istnieje i użytkownik jest zablokowany
+        $blockedUsersEmails = array_column($userRepository->getBlockedUsersEmails(), 'email');
+        if (!in_array($userEmail, $blockedUsersEmails)) {
+            header("Location: /adminpage?error=user_not_blocked");
+            exit;
+        }
+
+        // Odblokuj użytkownika
+        $stmt = $this->database->connect()->prepare("UPDATE users SET is_blocked = FALSE WHERE email = :email");
+        $stmt->bindParam(':email', $userEmail, PDO::PARAM_STR);
+        $stmt->execute();
+
+        header("Location: /adminpage?success=unblocked");
+        exit;
+    }
+
+    /*
+    public function unblockUser()
+    {
         if ($this->isPost()) {
             $userId = $_POST['user_id'] ?? null;
 
@@ -123,7 +152,7 @@ class AdminController extends AppController
                 header("Location: /adminpage?error=missing_user");
             }
         }
-    }
+    }*/
 
     public function removeAdmin()
     {

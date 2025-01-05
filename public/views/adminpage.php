@@ -68,6 +68,7 @@ if (isset($_COOKIE['user_token'])) {
         }
 
         .gaps-two > select {
+            width: 20%;
             margin-right: 30px;
         }
 
@@ -302,12 +303,10 @@ if (isset($_COOKIE['user_token'])) {
                 <form action="/unblockUser" method="POST">
                     <label for="unblock-user">Odblokuj użytkownika:</label>
                     <div class="gaps-two">
-                        <select name="user_id" id="unblock-user">
+                        <select name="user_email" id="unblock-user">
                             <option value="" disabled selected>Wybierz</option>
-                            <?php foreach ($users as $user): ?>
-                                <?php if ($user['id'] != $userId): ?> <!-- Exclude current user -->
-                                    <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['email']) ?></option>
-                                <?php endif; ?>
+                            <?php foreach ($blockedUsersEmails as $user): ?>
+                                <option value="<?= htmlspecialchars($user['email']) ?>"><?= htmlspecialchars($user['email']) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <button type="submit" class="admin-btn">Odblokuj</button>
