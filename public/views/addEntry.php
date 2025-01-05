@@ -22,7 +22,7 @@ if (isset($_COOKIE['user_token'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
-    <script src="mobile_sidebar.js" defer></script>
+    <script src="public/views/mobile_sidebar.js" defer></script>
     <title>Witaj w aktulizatorze MK18!</title>
     <style>
         a {
@@ -55,7 +55,7 @@ if (isset($_COOKIE['user_token'])) {
         .error-message {
             color: red;
             font-weight: bold;
-            margin-top: 10px; /* Opcjonalne - aby dodać trochę odstępu */
+            margin-top: 10px;
         }
 
     </style>
@@ -89,33 +89,33 @@ if (isset($_COOKIE['user_token'])) {
         <h1>Dodaj wpis</h1>
         <div class="add-menu">
             <form action="addEntry" method="POST">
-                <?php
-                if(isset($messages)){
-                    foreach($messages as $message){
-                        echo $message;
+                    <?php
+                    if(isset($messages)){
+                        foreach($messages as $message){
+                            echo $message;
+                        }
                     }
-                }
-                ?>
-            <div class="fill-one">
-                Uzupełnij pola
-            </div>
-            <div class="gaps-one">
-                    <div class="input-box">
-                        <input type="text" name="entry_id" required placeholder="ID">
-                    </div>
-                    <div class="input-box">
-                        <input type="text" name="location" required placeholder="Lokalizacja">
-                    </div>
-            </div>
-            <div class="fill-two">
-                Zaktualizuj ilość
-            </div>
-            <div class="gaps-one">
-                    <div class="input-box">
-                        <input type="text" name="amount" required placeholder="Ilość">
-                    </div>
-            </div>
-            <button type="submit" class="add-btn">Dodaj wpis</button>
+                    ?>
+                <div class="fill-one">
+                    Uzupełnij pola
+                </div>
+                <div class="gaps-one">
+                        <div class="input-box">
+                            <input type="text" name="entry_id" required placeholder="ID">
+                        </div>
+                        <div class="input-box">
+                            <input type="text" name="location" required placeholder="Lokalizacja">
+                        </div>
+                </div>
+                <div class="fill-two">
+                    Zaktualizuj ilość
+                </div>
+                <div class="gaps-one">
+                        <div class="input-box">
+                            <input type="text" name="amount" required placeholder="Ilość">
+                        </div>
+                </div>
+                <button type="submit" class="add-btn">Dodaj wpis</button>
             </form>
         </div>     
     </main>

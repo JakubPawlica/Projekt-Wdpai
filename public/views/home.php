@@ -59,6 +59,10 @@ if (isset($_COOKIE['user_token'])) {
             text-decoration: underline !important;
         }
 
+        .search {
+            z-index: 1;
+        }
+
         .searchTerm {
             width: 28%;
             border: 3px solid rgb(110,0,255);
@@ -72,6 +76,14 @@ if (isset($_COOKIE['user_token'])) {
 
         .searchTerm:focus{
             color: rgb(0, 0, 0);
+        }
+
+        @media(max-width: 768px){
+            .searchTerm {
+                width: 100%;
+                padding: 5px;
+                height: 24px;
+            }
         }
 
     </style>

@@ -34,6 +34,7 @@ nav {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    z-index: 2;
 }
 
 .user-info {
@@ -60,6 +61,7 @@ aside {
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 3;
 }
 
 .mk18-logo > img {
@@ -233,13 +235,47 @@ footer {
 }
 
 @media(max-width: 768px){
-    
+
+    .number {
+        font-size: 3vw !important;
+    }
+
+    .info-one > p {
+        font-size: 3vw !important;
+        margin-bottom: 2vw;
+    }
+
+    .info-one {
+        padding-top: 0.5em;
+        padding-bottom: 2.5em;
+        padding-right: 1em;
+        padding-left: 1em;
+    }
+
+    .info-two > p {
+        font-size: 3vw !important;
+        margin-bottom: 2vw;
+    }
+
+    .info-two {
+        padding-top: 0.5em;
+        padding-bottom: 2.5em;
+        padding-right: 1em;
+        padding-left: 1em;
+    }
+
     main{
         padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
     }
 
     main > h1 {
         font-size: 8vw;
+    }
+
+    .list > table {
+        font-size: 3vw;
     }
 
     .list-info {
@@ -260,6 +296,9 @@ footer {
     
     nav > button{
         display: block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
     }
 
     aside > button {

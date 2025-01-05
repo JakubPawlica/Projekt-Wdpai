@@ -22,7 +22,7 @@ if (isset($_COOKIE['user_token'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
-    <script src="mobile_sidebar.js" defer></script>
+    <script src="public/views/mobile_sidebar.js" defer></script>
     <title>Witaj w aktulizatorze MK18!</title>
     
     <style>
@@ -61,9 +61,9 @@ if (isset($_COOKIE['user_token'])) {
 
         .buttons {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: start;
             gap: 3em;
         }
 
@@ -101,6 +101,63 @@ if (isset($_COOKIE['user_token'])) {
             color: rgb(110,0,255);
             font-size: 30px;
             margin-bottom: 15px;
+        }
+
+        @media(max-width: 768px){
+
+            main > h1 {
+                font-size: 6.5vw;
+            }
+
+            .bottom-btn {
+                width: 45vw;
+                height: 10vw;
+                border-radius: 40px;
+                border: 3px solid rgb(110,0,255);
+                font-size: 17px;
+                background-color: rgb(110,0,255);
+                color: white;
+            }
+
+            .add-menu {
+                width: 65%;
+                height: auto;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 3em;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .danger-section {
+                margin-top: 50px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .danger {
+                color: rgb(110,0,255);
+                font-weight: bold;
+                font-size: 3vw;
+                text-align: center;
+            }
+
+            .danger-sign {
+                color: rgb(110,0,255);
+                font-size: 30px;
+                margin-bottom: 20px;
+            }
         }
 
     </style>
@@ -147,7 +204,7 @@ if (isset($_COOKIE['user_token'])) {
                 <form action="/importFromExcel" method="POST" enctype="multipart/form-data">
                     <div class="buttons">
                         <button type="submit" class="bottom-btn">Import</button>
-                        <input type="file" name="importFile" accept=".xls,.xlsx" required>
+                        <input type="file" class="input-file" name="importFile" accept=".xls,.xlsx" required>
                     </div>
                 </form>
             </div>

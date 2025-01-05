@@ -154,9 +154,9 @@ h1 {
     font-size: 25px;
 }
 
-.gaps-one > form {
+.add-menu > form {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
 }
 
@@ -216,10 +216,46 @@ footer {
         font-size: 8vw;
     }
 
+    nav > button{
+        display: block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+
+    .add-menu {
+        width: 65%;
+        height: auto;
+        border-radius: 30px;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fill-one {
+        width: 55vw;
+        font-size: 4vw;
+    }
+
+    .fill-two {
+        width: 55vw;
+        font-size: 4vw;
+    }
+
+    .input-box > input {
+        height: 10vw;
+        width: 52vw;
+    }
+
+    .gaps-one > .input-box > input {
+        font-size: 2.5vw;
+        padding-left: 3vw;
+    }
+
     body{
         grid-template-columns: 1fr;
     }
-    
+
     nav > button{
         display: block;
     }
