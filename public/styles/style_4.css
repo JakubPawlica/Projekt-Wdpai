@@ -290,3 +290,21 @@ footer {
         display: block;
     }
 }
+
+@media print {
+
+    .list-info,
+    .search,
+    main > h1,
+    aside,
+    footer,
+    nav {
+        display: none;
+    }
+
+    main {
+        justify-content: center;
+        align-items: center;
+    }
+
+}
