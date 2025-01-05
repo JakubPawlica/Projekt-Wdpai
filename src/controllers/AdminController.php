@@ -36,6 +36,8 @@ class AdminController extends AppController
         $unblockedUsers = $userRepository->getUnblockedUsers();
         $blockedUsers = $userRepository->getBlockedUsers();
         $blockedUsersEmails = $userRepository->getBlockedUsersEmails();
+        $usersWithoutAdminRole = $userRepository->getUsersWithoutAdminRole();
+        $admins = $userRepository->getAdmins();
 
         // Przekaż dane użytkownika oraz listy do widoku
         return $this->render('adminpage', [
@@ -45,7 +47,9 @@ class AdminController extends AppController
             'users' => $users,
             'unblockedUsers' => $unblockedUsers,
             'blockedUsers' => $blockedUsers,
-            'blockedUsersEmails' => $blockedUsersEmails
+            'blockedUsersEmails' => $blockedUsersEmails,
+            'usersWithoutAdminRole' => $usersWithoutAdminRole,
+            'admins' => $admins
         ]);
     }
 

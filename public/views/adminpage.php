@@ -348,10 +348,8 @@ if (isset($_COOKIE['user_token'])) {
                     <div class="gaps-two">
                         <select name="user_id" id="grant-admin">
                             <option value="" disabled selected>Wybierz</option>
-                            <?php foreach ($users as $user): ?>
-                                <?php if ($user['id'] != $userId): ?> <!-- Exclude current user -->
-                                    <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['email']) ?></option>
-                                <?php endif; ?>
+                            <?php foreach ($usersWithoutAdminRole as $user): ?>
+                                <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['email']) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <button type="submit" class="admin-btn">Nadaj</button>
@@ -369,9 +367,9 @@ if (isset($_COOKIE['user_token'])) {
                     <div class="gaps-two">
                         <select name="user_id" id="remove-admin">
                             <option value="" disabled selected>Wybierz</option>
-                            <?php foreach ($users as $user): ?>
-                                <?php if ($user['id'] != $userId): ?> <!-- Exclude current user -->
-                                    <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['email']) ?></option>
+                            <?php foreach ($admins as $admin): ?>
+                                <?php if ($admin['id'] != $userId): ?> <!-- Exclude current user -->
+                                    <option value="<?= $admin['id'] ?>"><?= htmlspecialchars($admin['email']) ?></option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </select>

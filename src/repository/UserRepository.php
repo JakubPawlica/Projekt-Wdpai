@@ -262,5 +262,32 @@ class UserRepository extends Repository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getUsersWithoutAdminRole()
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT u.id, u.email
+        FROM users u
+        LEFT JOIN user_roles ur ON u.id = ur.user_id
+        LEFT JOIN roles r ON ur.role_id = r.id
+        WHERE r.id != 1 OR r.id IS NULL
+    ');
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAdmins()
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT u.id, u.email
+        FROM users u
+        JOIN user_roles ur ON u.id = ur.user_id
+        JOIN roles r ON ur.role_id = r.id
+        WHERE r.id = 1
+    ');
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
