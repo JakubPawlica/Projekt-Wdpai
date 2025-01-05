@@ -23,7 +23,7 @@ if (isset($_COOKIE['user_token'])) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
     <script src="public/views/mobile_sidebar.js" defer></script>
-    <title>Witaj w aktulizatorze MK18!</title>
+    <title>Profil użytkownika</title>
     <style>
         a {
             text-decoration: none;
@@ -78,7 +78,7 @@ if (isset($_COOKIE['user_token'])) {
         @media(max-width: 768px) {
 
             .add-menu {
-                width: 65%;
+                width: auto;
                 height: auto;
                 border-radius: 30px;
                 background-color: rgb(255, 255, 255);
@@ -93,14 +93,13 @@ if (isset($_COOKIE['user_token'])) {
             }
 
             .input-box > input {
-                height: 10vw;
-                width: 51vw;
+                height: 13vw;
+                width: 80%;
+                font-size: 3vw;
+                padding-left: 3vw;
+                margin-right: 0;
             }
 
-            .input-box > input {
-                font-size: 2.5vw;
-                padding-left: 3vw;
-            }
         }
     </style>
 </head>

@@ -146,6 +146,7 @@ form {
     border-radius: 2vw;
     color: white;
     font-size: 0.8vw;
+    margin-top: 5vw; /*LINIJKA DODANA W ZWIĄZKU Z USUNIĘCIEM ZAPAMIĘTAJ ORAZ ZAPOMNIAŁEŚ HASŁA*/
 }
 
 @media (max-width: 768px) {
@@ -197,7 +198,7 @@ form {
         font-size: 3vw;
         gap: 12vw;
         margin-top: 6vw;
-        margin-bottom: 28vw;
+        /* margin-bottom: 28vw; LINIJKA USUNIĘTA W ZWIĄZKU Z USUNIĘCIEM ZAPAMIĘTAJ ORAZ ZAPOMNIAŁEŚ HASŁA*/
     }
 
     .remember-forgot label input {
@@ -211,5 +212,6 @@ form {
         width: 60vw;
         border-radius: 14vw;
         font-size: 5vw;
+        margin-top: 45vw; /*LINIJKA DODANA W ZWIĄZKU Z USUNIĘCIEM ZAPAMIĘTAJ ORAZ ZAPOMNIAŁEŚ HASŁA*/
     }
 }

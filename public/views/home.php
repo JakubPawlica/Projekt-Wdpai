@@ -25,7 +25,7 @@ if (isset($_COOKIE['user_token'])) {
     <script src="public/views/mobile_sidebar.js" defer></script>
     <script type="text/javascript" src="public/views/search.js" defer></script>
     <script src="public/views/updateUsername.js"></script>
-    <title>Witaj w aktulizatorze MK18!</title>
+    <title>Witaj w aktualizatorze MK18!</title>
     <style>
         a {
             text-decoration: none;
@@ -117,11 +117,11 @@ if (isset($_COOKIE['user_token'])) {
         <h1>Wpisy z dzisiejszego dnia</h1>
         <div class="list-info">
             <div class="info-one">
-                <p>Ilość dzisiejszych wpisów:</p>
+                <p class="number-info">Ilość dzisiejszych wpisów:</p>
                 <p class="number"><?= htmlspecialchars($entriesCount); ?></p>
             </div>
             <div class="info-two">
-                <p>Liczba użytkowników:</p>
+                <p class="number-info">Liczba użytkowników:</p>
                 <p class="number"><?= htmlspecialchars($usersCount); ?></p>
             </div>
         </div>

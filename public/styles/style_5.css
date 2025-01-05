@@ -210,6 +210,8 @@ footer {
     
     main{
         padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
     }
 
     main > h1 {
@@ -230,6 +232,7 @@ footer {
         background-color: rgb(255, 255, 255);
         display: flex;
         flex-direction: column;
+        padding: 50px;
     }
 
     .fill-one {
@@ -244,20 +247,18 @@ footer {
 
     .input-box > input {
         height: 10vw;
-        width: 52vw;
+        width: 50%;
     }
 
     .gaps-one > .input-box > input {
         font-size: 2.5vw;
         padding-left: 3vw;
+        width: 50%;
     }
 
     body{
-        grid-template-columns: 1fr;
-    }
-
-    nav > button{
         display: block;
+        grid-template-columns: 1fr;
     }
 
     aside > button {

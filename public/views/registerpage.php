@@ -15,6 +15,15 @@
             border: 0.3vw solid red !important;
             border-radius: 0.4vw !important;
         }
+
+        @media (max-width: 768px) {
+            .messages{
+                margin-right: 60px;
+                margin-left: 60px;
+                font-size: 15px;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>

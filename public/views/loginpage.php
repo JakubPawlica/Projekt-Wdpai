@@ -12,7 +12,10 @@
     <style>
         @media (max-width: 768px) {
             .messages{
-                font-size: 9px;
+                margin-right: 60px;
+                margin-left: 60px;
+                font-size: 15px;
+                text-align: center;
             }
         }
     </style>
@@ -45,10 +48,10 @@
                         <i class="fa-solid fa-key"></i>
                         <input type="password" name="password" required placeholder="Hasło">
                     </div>
-                    <div class="remember-forgot">
+                    <!-- ZAPAMIĘTAJ ORAZ ZAPOMNIAŁEŚ HASŁA <div class="remember-forgot">
                         <label><input type="checkbox"><p>Zapamiętaj</p></label>
                         <a href="#">Zapomniałeś hasła?</a>
-                    </div>
+                    </div>-->
                     <button type="submit" class="login-btn">Zaloguj się</button>
                 </form>
             </div>
