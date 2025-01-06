@@ -221,7 +221,7 @@ if (isset($_COOKIE['user_token'])) {
         </div>     
     </main>
     <footer>
-        Ostatnia aktualizacja 19.12.24
+        Ostatnia aktualizacja 06.01.25
     </footer>
 </body>
 </html>

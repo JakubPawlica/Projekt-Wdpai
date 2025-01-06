@@ -169,6 +169,78 @@ if (isset($_COOKIE['user_token'])) {
                 padding-left: 3vw;
                 margin-right: 0;
             }
+
+            .amount_input {
+                height: 64px !important;
+                width: 45px !important;
+                text-align: center !important;
+                padding-left: 0.1vw !important;
+                padding-right: 0.1vw !important;
+                border-bottom: 3px solid rgb(110,0,255) !important;
+                border-top: 3px solid rgb(110,0,255) !important;
+            }
+
+            .last_button_minus {
+                height: 70px;
+                width: 48px;
+                border: 2px solid rgb(110,0,255);
+                border-radius: 30px 0px 0px 30px;
+                font-size: 17px;
+                background-color: rgb(110,0,255);
+                color: white;
+            }
+
+            .last_button_plus {
+                height: 70px;
+                width: 48px;
+                border: 2px solid rgb(110,0,255);
+                border-radius: 0px 30px 30px 0px;
+                font-size: 17px;
+                background-color: rgb(110,0,255);
+                color: white;
+            }
+
+            .mid_button_minus {
+                height: 70px;
+                width: 48px;
+                border-top: 2px solid rgb(110,0,255);
+                border-bottom: 2px solid rgb(110,0,255);
+                border-left: 3px solid rgb(166, 158, 158);
+                border-right: 3px solid rgb(166, 158, 158);
+                font-size: 17px;
+                background-color: rgb(110,0,255);
+                color: white;
+            }
+
+            .mid_button_plus {
+                height: 70px;
+                width: 48px;
+                border-top: 2px solid rgb(110,0,255);
+                border-bottom: 2px solid rgb(110,0,255);
+                border-left: 3px solid rgb(166, 158, 158);
+                border-right: 3px solid rgb(166, 158, 158);
+                font-size: 17px;
+                background-color: rgb(110,0,255);
+                color: white;
+            }
+
+            .minus_button {
+                height: 70px;
+                width: 50px;
+                border: 2px solid rgb(110,0,255);
+                font-size: 25px;
+                background-color: rgb(110,0,255);
+                color: white;
+            }
+
+            .plus_button {
+                height: 70px;
+                width: 50px;
+                border: 2px solid rgb(110,0,255);
+                font-size: 25px;
+                background-color: rgb(110,0,255);
+                color: white;
+            }
         }
 
     </style>
@@ -239,7 +311,7 @@ if (isset($_COOKIE['user_token'])) {
         </div>     
     </main>
     <footer>
-        Ostatnia aktualizacja 19.12.24
+        Ostatnia aktualizacja 06.01.25
     </footer>
 </body>
 </html>
