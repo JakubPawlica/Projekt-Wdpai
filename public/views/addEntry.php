@@ -23,6 +23,8 @@ if (isset($_COOKIE['user_token'])) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
     <script src="public/views/mobile_sidebar.js" defer></script>
+    <script src="public/views/adding_entry.js" defer></script>
+    <script src="public/views/cursor_focus.js" defer></script>
     <title>Dodaj wpis!</title>
     <style>
         a {
@@ -56,6 +58,85 @@ if (isset($_COOKIE['user_token'])) {
             color: red;
             font-weight: bold;
             margin-top: 10px;
+        }
+
+        .calc-box {
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .amount_input {
+            margin: 0 !important;
+            border-radius: 0 !important;
+            height: 64px !important;
+            width: 65px !important;
+            text-align: center !important;
+            padding-left: 0.5vw !important;
+            padding-right: 0.5vw !important;
+            border-bottom: 3px solid rgb(110,0,255) !important;
+            border-top: 3px solid rgb(110,0,255) !important;
+        }
+
+        .last_button_minus {
+            height: 70px;
+            width: 50px;
+            border: 2px solid rgb(110,0,255);
+            border-radius: 50px 0px 0px 50px;
+            font-size: 17px;
+            background-color: rgb(110,0,255);
+            color: white;
+        }
+
+        .last_button_plus {
+            height: 70px;
+            width: 50px;
+            border: 2px solid rgb(110,0,255);
+            border-radius: 0px 50px 50px 0px;
+            font-size: 17px;
+            background-color: rgb(110,0,255);
+            color: white;
+        }
+
+        .mid_button_minus {
+            height: 70px;
+            width: 50px;
+            border-top: 2px solid rgb(110,0,255);
+            border-bottom: 2px solid rgb(110,0,255);
+            border-left: 3px solid rgb(166, 158, 158);
+            border-right: 3px solid rgb(166, 158, 158);
+            font-size: 17px;
+            background-color: rgb(110,0,255);
+            color: white;
+        }
+
+        .mid_button_plus {
+            height: 70px;
+            width: 50px;
+            border-top: 2px solid rgb(110,0,255);
+            border-bottom: 2px solid rgb(110,0,255);
+            border-left: 3px solid rgb(166, 158, 158);
+            border-right: 3px solid rgb(166, 158, 158);
+            font-size: 17px;
+            background-color: rgb(110,0,255);
+            color: white;
+        }
+
+        .minus_button {
+            height: 70px;
+            width: 55px;
+            border: 2px solid rgb(110,0,255);
+            font-size: 25px;
+            background-color: rgb(110,0,255);
+            color: white;
+        }
+
+        .plus_button {
+            height: 70px;
+            width: 55px;
+            border: 2px solid rgb(110,0,255);
+            font-size: 25px;
+            background-color: rgb(110,0,255);
+            color: white;
         }
 
         @media(max-width: 768px) {
@@ -133,7 +214,7 @@ if (isset($_COOKIE['user_token'])) {
                 </div>
                 <div class="gaps-one">
                         <div class="input-box">
-                            <input type="text" name="entry_id" required placeholder="ID">
+                            <input type="text" id="entry_id" name="entry_id" required placeholder="ID">
                         </div>
                         <div class="input-box">
                             <input type="text" name="location" required placeholder="Lokalizacja">
@@ -143,8 +224,14 @@ if (isset($_COOKIE['user_token'])) {
                     Zaktualizuj ilość
                 </div>
                 <div class="gaps-one">
-                        <div class="input-box">
-                            <input type="text" name="amount" required placeholder="Ilość">
+                        <div class="input-box calc-box">
+                            <button type="button" class="last_button_minus">10</button>
+                            <button type="button" class="mid_button_minus">5</button>
+                            <button type="button" class="minus_button">-</button>
+                            <input type="text" class="amount_input" name="amount" required placeholder="Ilość" value="0">
+                            <button type="button" class="plus_button">+</button>
+                            <button type="button" class="mid_button_plus">5</button>
+                            <button type="button" class="last_button_plus">10</button>
                         </div>
                 </div>
                 <button type="submit" class="add-btn">Dodaj wpis</button>
@@ -156,3 +243,12 @@ if (isset($_COOKIE['user_token'])) {
     </footer>
 </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var entryInput = document.getElementById('entry_id');
+        if (entryInput) {
+            entryInput.focus();
+        }
+    });
+</script>
