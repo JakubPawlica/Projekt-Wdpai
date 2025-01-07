@@ -300,7 +300,7 @@ if (isset($_COOKIE['user_token'])) {
                             <button type="button" class="last_button_minus">10</button>
                             <button type="button" class="mid_button_minus">5</button>
                             <button type="button" class="minus_button">-</button>
-                            <input type="text" class="amount_input" name="amount" required placeholder="Ilość" value="0">
+                            <input type="text" class="amount_input" name="amount" required placeholder="Ilość">
                             <button type="button" class="plus_button">+</button>
                             <button type="button" class="mid_button_plus">5</button>
                             <button type="button" class="last_button_plus">10</button>
