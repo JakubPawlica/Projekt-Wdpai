@@ -137,27 +137,6 @@ class AdminController extends AppController
         exit;
     }
 
-    /*
-    public function unblockUser()
-    {
-        if ($this->isPost()) {
-            $userId = $_POST['user_id'] ?? null;
-
-            if ($userId) {
-                $userRepository = new UserRepository();
-
-                if ($userRepository->doesUserExist($userId)) {
-                    $userRepository->unblockUser($userId);
-                    header("Location: /adminpage?success=unblocked");
-                } else {
-                    header("Location: /adminpage?error=user_not_found");
-                }
-            } else {
-                header("Location: /adminpage?error=missing_user");
-            }
-        }
-    }*/
-
     public function removeAdmin()
     {
         if ($this->isPost()) {

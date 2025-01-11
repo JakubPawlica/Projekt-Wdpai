@@ -21,8 +21,12 @@ class Routing {
     public static function run($url) {
         $action = explode("/",$url)[0];
 
+        if ($action === '') {
+            $controller = new DefaultController();
+            return $controller->dashboard();
+        }
+
         if(!array_key_exists($action, self::$routes)) {
-            //die("Wrong URL!"); Obsługa błędu 404
             $controller = new DefaultController();
             return $controller->error404();
         }

@@ -49,7 +49,7 @@ class EntryRepository extends Repository
     public function getAllEntries(): array
     {
         // Zapytanie SQL ograniczone tylko do wybranych kolumn
-        $query = "SELECT id, user_name, entry_id, location, amount FROM entry_list";
+        $query = "SELECT id, user_name, entry_id, location, amount FROM entry_list ORDER BY id DESC";
         $stmt = $this->database->connect()->prepare($query);
         $stmt->execute();
 
@@ -93,13 +93,14 @@ class EntryRepository extends Repository
         $searchString = '%' . strtolower($searchString) . '%';
 
         $stmt = $this->database->connect()->prepare('
-        SELECT user_name, entry_id, location, amount 
+        SELECT id, user_name, entry_id, location, amount 
         FROM entry_list 
         WHERE 
             LOWER(user_name) LIKE :search OR 
             entry_id::TEXT LIKE :search OR  -- rzutowanie entry_id na tekst
             LOWER(location) LIKE :search OR 
             amount::TEXT LIKE :search       -- rzutowanie amount na tekst
+        ORDER BY id DESC
         ');
 
         $stmt->bindParam(':search', $searchString, PDO::PARAM_STR);
@@ -147,35 +148,3 @@ class EntryRepository extends Repository
     }
 
 }
-
-
-/*Działająca wersja - pokazuje tylko własne wpisy
-public function getAllEntries(?int $userId = null): array
-{
-    $query = "SELECT * FROM entry_list";
-    if ($userId !== null) {
-        $query .= " WHERE id_assigned_by = :userId";
-    }
-
-    $stmt = $this->database->connect()->prepare($query);
-
-    if ($userId !== null) {
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-    }
-
-    $stmt->execute();
-
-    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $result = [];
-    foreach ($entries as $entry) {
-        $result[] = new Entry(
-            $entry['user_name'],
-            $entry['entry_id'],
-            $entry['location'],
-            $entry['amount']
-        );
-    }
-
-    return $result;
-}*/

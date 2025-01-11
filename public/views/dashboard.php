@@ -27,7 +27,7 @@
         <img src="public/styles/mk18-icon.png" alt="mk18">
         <div class="login-section">
             <i class="fa-regular fa-circle-user"></i>
-            <a href="loginpage.html">Zaloguj się / Zarejestruj się</a>
+            <a href="home">Zaloguj się / Zarejestruj się</a>
         </div>
         <a href="https://mk18.pl/"><button>Poznaj MK18</button></a>
     </nav>

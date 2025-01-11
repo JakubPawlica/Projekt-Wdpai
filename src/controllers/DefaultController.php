@@ -6,13 +6,11 @@ class DefaultController extends AppController {
     
     public function index(){
         //TODO display dashboard.html
-        $this->redirectIfNotAuthenticated();
         $this->render('dashboard');
     }
 
     public function dashboard(){
         //TODO display dashboard.html
-        $this->redirectIfNotAuthenticated();
         $this->render('dashboard');
     }
 

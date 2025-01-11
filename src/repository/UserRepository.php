@@ -39,32 +39,6 @@ class UserRepository extends Repository
         );
     }
 
-
-    /*
-    public function getUser(string $email): ?User
-    {
-        $stmt = $this->database->connect()->prepare("SELECT * FROM users u LEFT JOIN users_details ud ON u.id_user_details = ud.id WHERE email = :email");
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if($user == false)
-        {
-            return null;
-        }
-
-        $id = isset($user['id']) ? (int)$user['id'] : 0;
-
-        return new User(
-            $user['email'],
-            $user['password'],
-            $user['name'],
-            $user['surname'],
-            $id
-        );
-    }*/
-
     public function addUser(User $user)
     {
         // Sprawdzenie, czy adres email już istnieje
@@ -187,10 +161,25 @@ class UserRepository extends Repository
     public function deleteUser(int $userId): void
     {
         $stmt = $this->database->connect()->prepare('
+            SELECT id_user_details FROM users WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $idUserDetails = $stmt->fetchColumn();
+
+        $stmt = $this->database->connect()->prepare('
         DELETE FROM users
         WHERE id = :id
-    ');
+        ');
         $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $stmt = $this->database->connect()->prepare('
+        DELETE FROM users_details 
+        WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $idUserDetails, PDO::PARAM_INT);
         $stmt->execute();
     }
 
