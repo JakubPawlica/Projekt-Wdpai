@@ -217,25 +217,21 @@ class UserRepository extends Repository
         $stmt->bindParam(':token', $token, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->rowCount() > 0;  // Jeśli zwróci więcej niż 0 wierszy, to użytkownik jest adminem
+        return $stmt->rowCount() > 0;
     }
 
     public function assignDefaultRole(int $userId): void
     {
-        // Tworzymy instancję RoleRepository i wywołujemy metodę assignRole
         $roleRepository = new RoleRepository();
-        $roleRepository->assignRole($userId, 'worker');  // Wywołanie metody assignRole, aby przypisać rolę 'worker'
+        $roleRepository->assignRole($userId, 'worker');
     }
 
-    // Pobierz użytkowników niezablokowanych
     public function getUnblockedUsers()
     {
         $stmt = $this->database->connect()->prepare("SELECT * FROM view_unblocked_users");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Pobierz użytkowników zablokowanych
 
     public function getBlockedUsers()
     {

@@ -19,27 +19,22 @@ class AdminController extends AppController
         $userToken = $_COOKIE['user_token'];
         $userRepository = new UserRepository();
 
-        // Sprawdzenie, czy użytkownik jest adminem
         if (!$userRepository->isAdmin($userToken)) {
-            header("Location: /home"); // Przekierowanie dla nieadmina
+            header("Location: /home");
             exit;
         }
 
-        // Pobierz dane użytkownika
         $user = $userRepository->getUserByToken($userToken);
-        $userId = $user['id'];  // Pobranie ID użytkownika
+        $userId = $user['id'];
 
-        // Pobierz wszystkich użytkowników
         $users = $this->getUsers();
 
-        // Pobierz zablokowanych i niezablokowanych użytkowników
         $unblockedUsers = $userRepository->getUnblockedUsers();
         $blockedUsers = $userRepository->getBlockedUsers();
         $blockedUsersEmails = $userRepository->getBlockedUsersEmails();
         $usersWithoutAdminRole = $userRepository->getUsersWithoutAdminRole();
         $admins = $userRepository->getAdmins();
 
-        // Przekaż dane użytkownika oraz listy do widoku
         return $this->render('adminpage', [
             'name' => $user['name'],
             'surname' => $user['surname'],
@@ -121,14 +116,12 @@ class AdminController extends AppController
         $userEmail = $_POST['user_email'];
         $userRepository = new UserRepository();
 
-        // Sprawdź, czy podany email istnieje i użytkownik jest zablokowany
         $blockedUsersEmails = array_column($userRepository->getBlockedUsersEmails(), 'email');
         if (!in_array($userEmail, $blockedUsersEmails)) {
             header("Location: /adminpage?error=user_not_blocked");
             exit;
         }
 
-        // Odblokuj użytkownika
         $stmt = $this->database->connect()->prepare("UPDATE users SET is_blocked = FALSE WHERE email = :email");
         $stmt->bindParam(':email', $userEmail, PDO::PARAM_STR);
         $stmt->execute();
@@ -144,11 +137,11 @@ class AdminController extends AppController
 
             if ($userId) {
                 $roleRepository = new RoleRepository();
-                $roleRepository->removeRole($userId, 'admin');  // Usuwanie roli 'admin' dla użytkownika
+                $roleRepository->removeRole($userId, 'admin');
 
-                header("Location: /adminpage?success=admin_removed"); // Przekierowanie na stronę admina po sukcesie
+                header("Location: /adminpage?success=admin_removed");
             } else {
-                header("Location: /adminpage?error=missing_user"); // Błąd, brak użytkownika
+                header("Location: /adminpage?error=missing_user");
             }
         }
     }

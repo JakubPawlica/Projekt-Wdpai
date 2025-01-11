@@ -25,10 +25,8 @@ class AppController {
     
     protected function render(string $template = null, array $variables = []) {
         $templatePath = 'public/views/'.$template.'.php';
-        //$output = 'File not found';
 
         if(!file_exists($templatePath)) {
-            // Przekierowanie na stronę błędu 404
             $this->render('404');
             return;
         }
@@ -62,7 +60,6 @@ class AppController {
         }
 
         $token = $_COOKIE['user_token'];
-        // Weryfikacja tokenu z bazą danych
         $stmt = $this->database->connect()->prepare('SELECT id FROM users WHERE session_token = :token');
         $stmt->bindParam(':token', $token, PDO::PARAM_STR);
         $stmt->execute();

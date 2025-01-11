@@ -34,9 +34,6 @@ class EntryRepository extends Repository
         INSERT INTO entry_list (user_name, entry_id, location, amount, id_assigned_by) 
         VALUES (?, ?, ?, ?, ?) ");
 
-        //TODO you should get this value from logged user session
-        //$assignedById = 1; // ID zalogowanego użytkownika
-
         $stmt->execute([
             $entry->getUserName(),
             $entry->getEntryId(),
@@ -48,7 +45,6 @@ class EntryRepository extends Repository
 
     public function getAllEntries(): array
     {
-        // Zapytanie SQL ograniczone tylko do wybranych kolumn
         $query = "SELECT id, user_name, entry_id, location, amount FROM entry_list ORDER BY id DESC";
         $stmt = $this->database->connect()->prepare($query);
         $stmt->execute();

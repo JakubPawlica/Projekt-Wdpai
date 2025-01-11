@@ -20,10 +20,10 @@ Routing::post('registerpage', 'SecurityController');
 Routing::post('search', 'EntryController');
 Routing::get('profile', 'ProfileController');
 Routing::post('updateUserName', 'EntryController');
-Routing::get('adminpage', 'AdminController'); // Wyświetlenie strony admina
-Routing::post('blockUser', 'AdminController'); // Blokowanie użytkownika
-Routing::post('deleteUser', 'AdminController'); // Usuwanie użytkownika
-Routing::post('grantAdmin', 'AdminController'); // Nadawanie uprawnień administratora
-Routing::post('unblockUser', 'AdminController'); // Odblokowywanie użytkownika
-Routing::post('removeAdmin', 'AdminController'); // Odbieranie praw administratora
+Routing::get('adminpage', 'AdminController');
+Routing::post('blockUser', 'AdminController');
+Routing::post('deleteUser', 'AdminController');
+Routing::post('grantAdmin', 'AdminController');
+Routing::post('unblockUser', 'AdminController');
+Routing::post('removeAdmin', 'AdminController');
 Routing::run($path);

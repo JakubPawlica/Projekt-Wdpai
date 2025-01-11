@@ -6,7 +6,6 @@ class RoleRepository extends Repository
 {
     public function assignRole(int $userId, string $roleName): void
     {
-        // Pobranie ID roli na podstawie nazwy
         $stmt = $this->database->connect()->prepare('
         SELECT id FROM roles WHERE name = :roleName
     ');
@@ -37,7 +36,6 @@ class RoleRepository extends Repository
 
     public function removeRole(int $userId, string $roleName): void
     {
-        // Pobranie ID roli na podstawie nazwy
         $stmt = $this->database->connect()->prepare('
             SELECT id
             FROM roles
@@ -48,7 +46,6 @@ class RoleRepository extends Repository
         $roleId = $stmt->fetchColumn();
 
         if ($roleId) {
-            // Usunięcie roli z tabeli user_roles
             $stmt = $this->database->connect()->prepare('
                 DELETE FROM user_roles
                 WHERE user_id = :user_id AND role_id = :role_id
