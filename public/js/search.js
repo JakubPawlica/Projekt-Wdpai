@@ -4,10 +4,9 @@ const entryContainer = document.querySelector(".list table tbody");
 let timeout;
 
 search.addEventListener("input", function () {
-    // Wyczyszczenie poprzedniego timeoutu
+
     clearTimeout(timeout);
 
-    // Ustawienie nowego timeoutu
     timeout = setTimeout(() => {
         const data = { search: this.value };
 
@@ -28,7 +27,7 @@ search.addEventListener("input", function () {
         }).catch(function (error) {
             console.error("Błąd:", error.message);
         });
-    }, 300); // Opóźnienie 300 ms
+    }, 300);
 });
 
 function loadProjects(home) {
@@ -54,12 +53,11 @@ function createEntry(entry) {
 
     // Tworzenie dynamicznego linku do usuwania wpisu
     const deleteLink = clone.querySelector("a");
-    deleteLink.href = `deleteEntry?id=${entry.id}`;  // Używamy entry.id zamiast entry.entry_id
+    deleteLink.href = `deleteEntry?id=${entry.id}`;
     deleteLink.setAttribute(
         "onclick",
         `return handleDelete('${entry.user_name}');`
     );
-    console.log(`Wygenerowany link do usunięcia: ${deleteLink.href}`);
 
     entryContainer.appendChild(clone);
 }

@@ -14,7 +14,6 @@ class RoleRepository extends Repository
         $roleId = $stmt->fetchColumn();
 
         if ($roleId) {
-            // Sprawdzenie, czy rola już jest przypisana
             $stmt = $this->database->connect()->prepare('
             SELECT COUNT(*) FROM user_roles WHERE user_id = :user_id AND role_id = :role_id
         ');
@@ -23,7 +22,6 @@ class RoleRepository extends Repository
             $stmt->execute();
 
             if ($stmt->fetchColumn() == 0) {
-                // Przypisanie roli do użytkownika
                 $stmt = $this->database->connect()->prepare('
                 INSERT INTO user_roles (user_id, role_id) VALUES (:user_id, :role_id)
             ');

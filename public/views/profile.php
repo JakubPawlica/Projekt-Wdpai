@@ -5,10 +5,9 @@ require_once __DIR__.'/../../src/repository/UserRepository.php';
 $userRepository = new UserRepository();
 $isAdmin = false;
 
-// Sprawdź, czy użytkownik jest zalogowany
 if (isset($_COOKIE['user_token'])) {
     $userToken = $_COOKIE['user_token'];
-    $isAdmin = $userRepository->isAdmin($userToken); // Sprawdza, czy użytkownik jest adminem
+    $isAdmin = $userRepository->isAdmin($userToken);
 }
 ?>
 
@@ -167,7 +166,7 @@ if (isset($_COOKIE['user_token'])) {
         </div>     
     </main>
     <footer>
-        Ostatnia aktualizacja 06.01.25
+        Ostatnia aktualizacja 12.01.25
     </footer>
 </body>
 </html>

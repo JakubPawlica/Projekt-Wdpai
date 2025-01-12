@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const amountInput = document.querySelector(".amount_input");
 
     function updateAmount(change) {
-        let currentAmount = parseFloat(amountInput.value) || 0; // Konwertuj wartość na liczbę, domyślnie 0
+        let currentAmount = parseFloat(amountInput.value) || 0;
         currentAmount += change;
-        amountInput.value = currentAmount.toString(); // Ustaw nową wartość jako tekst
+        amountInput.value = currentAmount.toString();
     }
 
     document.querySelector(".minus_button").addEventListener("click", function () {

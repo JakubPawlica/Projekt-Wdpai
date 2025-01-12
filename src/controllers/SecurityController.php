@@ -22,7 +22,6 @@ class SecurityController extends AppController
             return $this->render('loginpage', ['messages' => ['Użytkownik o podanym adresie email nie istnieje!']]);
         }
 
-        // Bezpośrednie sprawdzenie zablokowania w bazie danych
         $stmt = $this->database->connect()->prepare('
         SELECT is_blocked FROM users WHERE email = :email
         ');
@@ -30,7 +29,7 @@ class SecurityController extends AppController
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($result && $result['is_blocked']) { // Jeśli is_blocked jest true
+        if ($result && $result['is_blocked']) {
             return $this->render('loginpage', ['messages' => ['Konto zostało zablokowane']]);
         }
 
@@ -43,8 +42,8 @@ class SecurityController extends AppController
         }
 
         $new_session = $this->createUserToken($user->getId());
-        $token = $new_session; // Przypisujemy do zmiennej
-        $id = $user->getId();  // Przypisujemy do zmiennej
+        $token = $new_session;
+        $id = $user->getId();
 
         $stmt = $this->database->connect()->prepare('UPDATE users SET session_token = :token WHERE id = :id');
         $stmt->bindParam(':token', $token, PDO::PARAM_STR);
@@ -53,9 +52,8 @@ class SecurityController extends AppController
 
         setcookie("user_token", $new_session, time() + (356 * 24 * 60 * 60), '/');
 
-        // Sprawdź, czy bufor jest aktywny i wyczyść go
         if (ob_get_level()) {
-            ob_end_clean(); // Usuwa dane z bufora i wyłącza go
+            ob_end_clean();
         }
 
         $url = "http://$_SERVER[HTTP_HOST]/home";
@@ -89,9 +87,7 @@ class SecurityController extends AppController
         if(is_null($res)) {
             return $this->render('registerpage', ['messages' => ['Adres e-mail jest już zajęty.']]);
         }
-        //powyżej błąd
 
-        // Przekierowanie na stronę logowania po pomyślnej rejestracji
         header("Location: /loginpage");
         exit;
     }
@@ -101,12 +97,10 @@ class SecurityController extends AppController
         if (isset($_COOKIE['user_token'])) {
             $token = $_COOKIE['user_token'];
 
-            // Usuń token z bazy danych
             $stmt = $this->database->connect()->prepare('UPDATE users SET session_token = NULL WHERE session_token = :token');
             $stmt->bindParam(':token', $token, PDO::PARAM_STR);
             $stmt->execute();
 
-            // Usuń ciasteczko
             setcookie("user_token", "", time() - 3600, '/');
         }
 
@@ -123,9 +117,8 @@ class SecurityController extends AppController
     protected function createUserToken(int $userId): string
     {
         // Generowanie tokenu sesji na podstawie ID użytkownika
-        // Możesz użyć np. funkcji uniqid, random_bytes lub JWT do generowania tokenu
+        // Używamy funkcji random_bytes do generowania tokenu
         $token = bin2hex(random_bytes(32));  // Generowanie unikalnego tokenu
-        // Możesz tu dodać logikę, aby zapisać token w bazie danych lub w sesji, jeśli jest to wymagane
         return $token;
     }
 }

@@ -14,7 +14,6 @@ function updateUserName(id, newUserName) {
             }
         })
         .then(data => {
-            // Zaktualizuj tabelę na stronie
             document.querySelector(`#user-name-${id}`).innerText = newUserName;
         })
         .catch(error => console.error(error));

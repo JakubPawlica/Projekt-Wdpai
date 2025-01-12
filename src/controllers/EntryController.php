@@ -20,7 +20,6 @@ class EntryController extends AppController
     {
         $this->redirectIfNotAuthenticated();
 
-        // Obsługa żądania GET
         if ($this->isGet()) {
             if (isset($_COOKIE['user_token'])) {
                 $userRepository = new UserRepository();
@@ -36,13 +35,11 @@ class EntryController extends AppController
             return $this->render('addEntry');
         }
 
-        // Obsługa żądania POST
         if ($this->isPost()) {
             $entryId = $_POST['entry_id'];
             $amount = $_POST['amount'];
             $location = $_POST['location'];
 
-            // Pobierz dane użytkownika z tokena
             if (isset($_COOKIE['user_token'])) {
                 $userRepository = new UserRepository();
                 $user = $userRepository->getUserByToken($_COOKIE['user_token']);
@@ -56,7 +53,6 @@ class EntryController extends AppController
                 return $this->render('addEntry', ['messages' => $this->messages]);
             }
 
-            // Walidacja pól
             if (!ctype_digit($entryId) && !preg_match('/^-?\d+$/', $entryId)) {
                 $this->messages[] = '<p class="error-message">ID musi być liczbą całkowitą różną od 0.</p>';
                 return $this->render('addEntry', [
@@ -76,13 +72,11 @@ class EntryController extends AppController
             }
 
             try {
-                // Połączenie z bazą danych i rozpoczęcie transakcji
                 $pdo = $this->database->connect();
                 $pdo->beginTransaction();
 
                 $assignedById = $user['id'];
 
-                // Tworzenie wpisu
                 $entry = new Entry(
                     null,
                     $user['name'] . ' ' . $user['surname'], // user_name
@@ -91,22 +85,18 @@ class EntryController extends AppController
                     $amount                                 // amount
                 );
 
-                // Dodanie wpisu do bazy danych
                 $this->entryRepository->addEntry($entry, $assignedById);
 
-                // Zatwierdzenie transakcji
                 $pdo->commit();
 
-                // Przekierowanie na stronę główną
                 header('Location: /home');
                 exit;
             } catch (Exception $e) {
-                // Cofnięcie transakcji w przypadku błędu
+
                 if (isset($pdo) && $pdo->inTransaction()) {
                     $pdo->rollBack();
                 }
 
-                // Dodanie komunikatu o błędzie
                 $this->messages[] = 'Wystąpił błąd podczas dodawania wpisu: ' . $e->getMessage();
                 return $this->render('addEntry', [
                     'messages' => $this->messages,
@@ -119,21 +109,17 @@ class EntryController extends AppController
 
     public function deleteEntry()
     {
-        $this->redirectIfNotAuthenticated(); // Upewnij się, że użytkownik jest zalogowany
+        $this->redirectIfNotAuthenticated();
 
-        // Pobierz parametr id z URL
         $id = $_GET['id'] ?? null;
 
         if ($id === null || !is_numeric($id)) {
-            // Obsługa błędu, jeśli nie przekazano poprawnego ID
             $this->messages[] = "Nieprawidłowy identyfikator wpisu.";
             return $this->render('home', ['messages' => $this->messages]);
         }
 
-        // Wywołaj repozytorium w celu usunięcia wpisu
         $this->entryRepository->deleteEntry((int)$id);
 
-        // Przekieruj z powrotem na stronę home
         header('Location: /home');
         exit;
     }
@@ -169,23 +155,18 @@ class EntryController extends AppController
 
     public function exportToExcel()
     {
-        $entries = $this->entryRepository->getAllEntries(); // Pobierz wszystkie dane
+        $entries = $this->entryRepository->getAllEntries();
 
-        // Dynamiczna nazwa pliku na podstawie daty
         $filename = 'Wpisy_' . date('Y-m-d') . '.xls';
 
-        // Ustawienia dla nagłówków HTTP
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
-        // Otwórz bufor
         $output = fopen('php://output', 'w');
 
-        // Dodaj nagłówki kolumn (bez ID)
-        fputcsv($output, ['Użytkownik', 'ID wpisu', 'Lokacja', 'Ilość'], "\t");
+        fputcsv($output, ['Użytkownik', 'ID wpisu', 'Lokalizacja', 'Ilość'], "\t");
 
-        // Dodaj dane (bez ID rekordu)
         foreach ($entries as $entry) {
             fputcsv($output, [
                 $entry->getUserName(),
@@ -228,10 +209,8 @@ class EntryController extends AppController
             $entryRepository->clearTable();
 
             if ($fileExtension === 'xls') {
-                // Odczyt dla plików .xls
                 $file = fopen($fileTmpPath, 'r');
 
-                // Pomijamy nagłówki
                 fgetcsv($file);
 
                 while (($data = fgetcsv($file, 1000, "\t")) !== false) {
@@ -247,7 +226,6 @@ class EntryController extends AppController
             } elseif ($fileExtension === 'xlsx') {
                 $zip = new ZipArchive();
                 if ($zip->open($fileTmpPath) === TRUE) {
-                    // Odczytaj dane z `xl/sharedStrings.xml` (tekstowe wartości komórek)
                     $sharedStringsXML = $zip->getFromName('xl/sharedStrings.xml');
                     $sharedStrings = [];
                     if ($sharedStringsXML) {
@@ -257,7 +235,6 @@ class EntryController extends AppController
                         }
                     }
 
-                    // Odczytaj dane z pierwszego arkusza `xl/worksheets/sheet1.xml`
                     $sheetXML = $zip->getFromName('xl/worksheets/sheet1.xml');
                     if ($sheetXML) {
                         $sheetDoc = simplexml_load_string($sheetXML);
@@ -265,22 +242,19 @@ class EntryController extends AppController
                         foreach ($sheetDoc->sheetData->row as $row) {
                             $cells = [];
                             foreach ($row->c as $cell) {
-                                // Jeśli komórka odwołuje się do sharedStrings, pobierz wartość z tablicy
                                 if (isset($cell->v) && $cell['t'] == 's') {
                                     $cells[] = $sharedStrings[(int)$cell->v];
                                 } elseif (isset($cell->v)) {
                                     $cells[] = (string)$cell->v;
                                 } else {
-                                    $cells[] = null; // Jeśli brak wartości, dodaj null
+                                    $cells[] = null;
                                 }
                             }
 
-                            // Pomijamy pierwszy wiersz (nagłówki)
                             if ($row['r'] == 1) {
                                 continue;
                             }
 
-                            // Przypisz dane do zmiennych
                             $userName = $cells[0] ?? null;
                             $entryId = isset($cells[1]) ? (int)$cells[1] : null;
                             $location = $cells[2] ?? null;
@@ -325,12 +299,10 @@ class EntryController extends AppController
                 $entryRepository = new EntryRepository();
                 $entryRepository->updateUserNameInEntries($userId);
 
-                // Przekierowanie z parametrem success
                 header("Location: /profile?success=true");
                 exit;
 
             } catch (Exception $e) {
-                // Przekierowanie z komunikatem o błędzie
                 header("Location: /profile?success=false&error=" . urlencode($e->getMessage()));
                 exit;
             }

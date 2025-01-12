@@ -48,10 +48,6 @@
                         <i class="fa-solid fa-key"></i>
                         <input type="password" name="password" required placeholder="Hasło">
                     </div>
-                    <!-- ZAPAMIĘTAJ ORAZ ZAPOMNIAŁEŚ HASŁA <div class="remember-forgot">
-                        <label><input type="checkbox"><p>Zapamiętaj</p></label>
-                        <a href="#">Zapomniałeś hasła?</a>
-                    </div>-->
                     <button type="submit" class="login-btn">Zaloguj się</button>
                 </form>
             </div>

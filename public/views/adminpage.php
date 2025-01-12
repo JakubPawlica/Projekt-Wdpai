@@ -5,10 +5,9 @@ require_once __DIR__.'/../../src/repository/UserRepository.php';
 $userRepository = new UserRepository();
 $isAdmin = false;
 
-// Sprawdź, czy użytkownik jest zalogowany
 if (isset($_COOKIE['user_token'])) {
     $userToken = $_COOKIE['user_token'];
-    $isAdmin = $userRepository->isAdmin($userToken); // Sprawdza, czy użytkownik jest adminem
+    $isAdmin = $userRepository->isAdmin($userToken);
 }
 ?>
 
@@ -261,7 +260,7 @@ if (isset($_COOKIE['user_token'])) {
                         <select name="user_id" id="block-user">
                             <option value="" disabled selected>Wybierz</option>
                             <?php foreach ($users as $user): ?>
-                                <?php if ($user['id'] != $userId): ?> <!-- Exclude current user -->
+                                <?php if ($user['id'] != $userId): ?>
                                     <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['email']) ?></option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -368,7 +367,7 @@ if (isset($_COOKIE['user_token'])) {
                         <select name="user_id" id="remove-admin">
                             <option value="" disabled selected>Wybierz</option>
                             <?php foreach ($admins as $admin): ?>
-                                <?php if ($admin['id'] != $userId): ?> <!-- Exclude current user -->
+                                <?php if ($admin['id'] != $userId): ?>
                                     <option value="<?= $admin['id'] ?>"><?= htmlspecialchars($admin['email']) ?></option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -389,7 +388,7 @@ if (isset($_COOKIE['user_token'])) {
                         <select name="user_id" id="delete-user">
                             <option value="" disabled selected>Wybierz</option>
                             <?php foreach ($users as $user): ?>
-                                <?php if ($user['id'] != $userId): ?> <!-- Exclude current user -->
+                                <?php if ($user['id'] != $userId): ?>
                                     <option value="<?= $user['id'] ?>"><?= htmlspecialchars($user['email']) ?></option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -404,7 +403,7 @@ if (isset($_COOKIE['user_token'])) {
         </div>
     </main>
     <footer>
-        Ostatnia aktualizacja 06.01.25
+        Ostatnia aktualizacja 12.01.25
     </footer>
 </body>
 </html>
