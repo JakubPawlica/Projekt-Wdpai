@@ -132,8 +132,9 @@ class EntryRepository extends Repository
         UPDATE entry_list
         SET user_name = (
             SELECT CONCAT(users_details.name, ' ', users_details.surname)
-            FROM users_details
-            WHERE users_details.id = entry_list.id_assigned_by
+            FROM users
+            INNER JOIN users_details ON users.id_user_details = users_details.id
+            WHERE users.id = entry_list.id_assigned_by
         )
         WHERE id_assigned_by = :userId;
     ";

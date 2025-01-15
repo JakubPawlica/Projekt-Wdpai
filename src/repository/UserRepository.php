@@ -116,8 +116,24 @@ class UserRepository extends Repository
         return (int) $result['count'];
     }
 
-    public function updateUserDetails(int $userDetailsId, string $name, string $surname): void
+    public function updateUserDetails(int $userId, string $name, string $surname): void
     {
+        $stmt = $this->database->connect()->prepare('
+        SELECT id_user_details
+        FROM users
+        WHERE id = :id
+    ');
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result || !isset($result['id_user_details'])) {
+            throw new Exception('Nie znaleziono id_user_details dla podanego user_id');
+        }
+
+        $userDetailsId = $result['id_user_details'];
+
         $stmt = $this->database->connect()->prepare('
         UPDATE users_details
         SET name = :name, surname = :surname

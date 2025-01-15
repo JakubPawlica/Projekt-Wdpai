@@ -8,6 +8,15 @@ require_once __DIR__.'/../repository/RoleRepository.php';
 
 class AdminController extends AppController
 {
+    private UserRepository $userRepository;
+    private RoleRepository $roleRepository;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->userRepository = new UserRepository();
+        $this->roleRepository = new RoleRepository();
+    }
 
     public function adminpage()
     {
@@ -17,23 +26,22 @@ class AdminController extends AppController
         }
 
         $userToken = $_COOKIE['user_token'];
-        $userRepository = new UserRepository();
 
-        if (!$userRepository->isAdmin($userToken)) {
+        if (!$this->userRepository->isAdmin($userToken)) {
             header("Location: /home");
             exit;
         }
 
-        $user = $userRepository->getUserByToken($userToken);
+        $user = $this->userRepository->getUserByToken($userToken);
         $userId = $user['id'];
 
         $users = $this->getUsers();
 
-        $unblockedUsers = $userRepository->getUnblockedUsers();
-        $blockedUsers = $userRepository->getBlockedUsers();
-        $blockedUsersEmails = $userRepository->getBlockedUsersEmails();
-        $usersWithoutAdminRole = $userRepository->getUsersWithoutAdminRole();
-        $admins = $userRepository->getAdmins();
+        $unblockedUsers = $this->userRepository->getUnblockedUsers();
+        $blockedUsers = $this->userRepository->getBlockedUsers();
+        $blockedUsersEmails = $this->userRepository->getBlockedUsersEmails();
+        $usersWithoutAdminRole = $this->userRepository->getUsersWithoutAdminRole();
+        $admins = $this->userRepository->getAdmins();
 
         return $this->render('adminpage', [
             'name' => $user['name'],
@@ -50,60 +58,63 @@ class AdminController extends AppController
 
     public function getUsers()
     {
-        $userRepository = new UserRepository();
-        return $userRepository->getAllUsers();
+        return $this->userRepository->getAllUsers();
     }
 
     public function blockUser()
     {
-        if ($this->isPost()) {
-            $userId = $_POST['user_id'] ?? null;
-
-            if ($userId) {
-                $userRepository = new UserRepository();
-
-                if ($userRepository->doesUserExist($userId)) {
-                    $userRepository->blockUser($userId);
-                    header("Location: /adminpage?success=blocked");
-                } else {
-                    header("Location: /adminpage?error=user_not_found");
-                }
-            } else {
-                header("Location: /adminpage?error=missing_user");
-            }
+        if (!$this->isPost()) {
+            return;
         }
+
+        $userId = $_POST['user_id'] ?? null;
+
+        if (!$userId) {
+            header("Location: /adminpage?error=missing_user");
+            return;
+        }
+
+        if (!$this->userRepository->doesUserExist($userId)) {
+            header("Location: /adminpage?error=user_not_found");
+            return;
+        }
+
+        $this->userRepository->blockUser($userId);
+        header("Location: /adminpage?success=blocked");
     }
 
     public function deleteUser()
     {
-        if ($this->isPost()) {
-            $userId = $_POST['user_id'] ?? null;
-
-            if ($userId) {
-                $userRepository = new UserRepository();
-                $userRepository->deleteUser($userId);
-
-                header("Location: /adminpage?success=deleted");
-            } else {
-                header("Location: /adminpage?error=missing_user");
-            }
+        if (!$this->isPost()) {
+            return;
         }
+
+        $userId = $_POST['user_id'] ?? null;
+
+        if (!$userId) {
+            header("Location: /adminpage?error=missing_user");
+            return;
+        }
+
+        $this->userRepository->deleteUser($userId);
+        header("Location: /adminpage?success=deleted");
     }
 
     public function grantAdmin()
     {
-        if ($this->isPost()) {
-            $userId = $_POST['user_id'] ?? null;
-
-            if ($userId) {
-                $roleRepository = new RoleRepository();
-                $roleRepository->assignRole($userId, 'admin');
-
-                header("Location: /adminpage?success=admin_granted");
-            } else {
-                header("Location: /adminpage?error=missing_user");
-            }
+        if (!$this->isPost()) {
+            return;
         }
+
+        $userId = $_POST['user_id'] ?? null;
+
+        if (!$userId) {
+            header("Location: /adminpage?error=missing_user");
+            return;
+        }
+
+        $this->roleRepository->assignRole($userId, 'admin');
+        header("Location: /adminpage?success=admin_granted");
     }
 
     public function unblockUser()
@@ -114,9 +125,8 @@ class AdminController extends AppController
         }
 
         $userEmail = $_POST['user_email'];
-        $userRepository = new UserRepository();
+        $blockedUsersEmails = array_column($this->userRepository->getBlockedUsersEmails(), 'email');
 
-        $blockedUsersEmails = array_column($userRepository->getBlockedUsersEmails(), 'email');
         if (!in_array($userEmail, $blockedUsersEmails)) {
             header("Location: /adminpage?error=user_not_blocked");
             exit;
@@ -132,30 +142,29 @@ class AdminController extends AppController
 
     public function removeAdmin()
     {
-        if ($this->isPost()) {
-            $userId = $_POST['user_id'] ?? null;
-
-            if ($userId) {
-                $roleRepository = new RoleRepository();
-                $roleRepository->removeRole($userId, 'admin');
-
-                header("Location: /adminpage?success=admin_removed");
-            } else {
-                header("Location: /adminpage?error=missing_user");
-            }
+        if (!$this->isPost()) {
+            return;
         }
+
+        $userId = $_POST['user_id'] ?? null;
+
+        if (!$userId) {
+            header("Location: /adminpage?error=missing_user");
+            return;
+        }
+
+        $this->roleRepository->removeRole($userId, 'admin');
+        header("Location: /adminpage?success=admin_removed");
     }
 
     private function getUnblockedUsers()
     {
-        $userRepository = new UserRepository();
-        return $userRepository->getUnblockedUsers();
+        return $this->userRepository->getUnblockedUsers();
     }
 
     private function getBlockedUsers()
     {
-        $userRepository = new UserRepository();
-        return $userRepository->getBlockedUsers();
+        return $this->userRepository->getBlockedUsers();
     }
 
 }
