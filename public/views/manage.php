@@ -185,6 +185,7 @@ if (isset($_COOKIE['user_token'])) {
             <a href="profile"><li><i class="fa-regular fa-user"></i>Profil</li></a>
             <a href="home"><li><i class="fa-solid fa-list"></i>Lista wpisów</li></a>
             <a href="addEntry"><li><i class="fa-solid fa-plus"></i>Dodaj wpis</li></a>
+            <a href="locator"><li><i class="fa-solid fa-magnifying-glass"></i>Lokalizator</li></a>
             <a href="manage"><li><i class="fa-solid fa-database"></i></i>Zarządzaj</li></a>
             <?php if ($isAdmin): ?>
                 <a href="adminpage"><li><i class="fa-solid fa-lock-open"></i>Admin</li></a>

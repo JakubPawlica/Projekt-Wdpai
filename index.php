@@ -9,6 +9,7 @@ Routing::get('index', 'DefaultController');
 Routing::get('dashboard', 'DefaultController');
 Routing::get('404', 'DefaultController');
 Routing::get('home', 'DefaultController');
+Routing::get('locator', 'LocatorController');
 Routing::get('manage', 'DefaultController');
 Routing::get('exportToExcel', 'EntryController');
 Routing::post('importFromExcel', 'EntryController');

@@ -5,6 +5,7 @@ require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/EntryController.php';
 require_once 'src/controllers/ProfileController.php';
 require_once 'src/controllers/AdminController.php';
+require_once 'src/controllers/LocatorController.php';
 
 class Routing {
 
