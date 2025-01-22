@@ -309,4 +309,28 @@ class EntryController extends AppController
         }
     }
 
+    public function searchLocator()
+    {
+        try {
+            $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+            if ($contentType === "application/json") {
+                $content = trim(file_get_contents("php://input"));
+                $decoded = json_decode($content, true);
+
+                $entries = $this->entryRepository->getLocatorEntries($decoded['search'] ?? '');
+
+                header('Content-type: application/json');
+                http_response_code(200);
+                echo json_encode($entries);
+            } else {
+                throw new Exception('Nieprawidłowy typ danych.');
+            }
+        } catch (Exception $e) {
+            header('Content-type: application/json');
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
 }

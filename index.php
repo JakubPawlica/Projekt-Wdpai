@@ -19,6 +19,7 @@ Routing::post('addEntry', 'EntryController');
 Routing::post('loginpage', 'SecurityController');
 Routing::post('registerpage', 'SecurityController');
 Routing::post('search', 'EntryController');
+Routing::post('searchLocator', 'EntryController');
 Routing::get('profile', 'ProfileController');
 Routing::post('updateUserName', 'EntryController');
 Routing::get('adminpage', 'AdminController');

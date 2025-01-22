@@ -144,4 +144,35 @@ class EntryRepository extends Repository
         $stmt->execute();
     }
 
+    public function getLocatorEntries($search)
+    {
+        $query = "
+        SELECT 
+            entry_id, 
+            all_locations, 
+            all_amounts, 
+            total_amount 
+        FROM 
+            entry_summary
+        WHERE 
+            CAST(entry_id AS TEXT) LIKE :search OR
+            all_locations LIKE :search
+    ";
+
+        $stmt = $this->database->connect()->prepare($query);
+        $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+        $stmt->execute();
+
+        $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(function ($entry) {
+            return [
+                'entry_id' => $entry['entry_id'],
+                'all_locations' => $entry['all_locations'],
+                'all_amounts' => $entry['all_amounts'],
+                'total_amount' => $entry['total_amount'],
+            ];
+        }, $entries);
+    }
+
 }
