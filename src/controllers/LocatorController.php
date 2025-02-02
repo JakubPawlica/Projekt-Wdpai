@@ -38,4 +38,33 @@ class LocatorController extends AppController
             'locators' => $locators
         ]);
     }
+
+    public function exportToExcel_locator()
+    {
+        $locatorRepository = new LocatorRepository();
+        $locators = $locatorRepository->getSummary();
+
+        $filename = 'Podsumowanie_' . date('Y-m-d') . '.xls';
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $output = fopen('php://output', 'w');
+
+        fputcsv($output, ['ID Produktu', 'Lokalizacje', 'Ilość na lokalizacji', 'Łączna ilość'], "\t");
+
+        foreach ($locators as $locator) {
+            fputcsv($output, [
+                $locator['entry_id'],
+                $locator['all_locations'],
+                $locator['all_amounts'],
+                $locator['total_amount']
+            ], "\t");
+        }
+
+        fclose($output);
+        exit;
+    }
+
 }

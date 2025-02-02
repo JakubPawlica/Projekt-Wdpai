@@ -12,6 +12,7 @@ Routing::get('home', 'DefaultController');
 Routing::get('locator', 'LocatorController');
 Routing::get('manage', 'DefaultController');
 Routing::get('exportToExcel', 'EntryController');
+Routing::get('exportToExcel_locator', 'LocatorController');
 Routing::post('importFromExcel', 'EntryController');
 Routing::get('logout', 'SecurityController');
 Routing::get('deleteEntry', 'EntryController');
