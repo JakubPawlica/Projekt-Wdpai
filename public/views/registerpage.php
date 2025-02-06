@@ -63,10 +63,10 @@
                     </div>
                     <div class="input-box">
                         <i class="fa-solid fa-user-shield"></i>
-                        <input type="text" name="worker_id" required placeholder="Identyfikator pracownika">
+                        <input type="password" name="worker_id" required placeholder="Kod autoryzacyjny">
                     </div>
                     <div class="id-info">
-                        Poproś rekrutera o identyfikator aby potwierdzić, że jesteś pracownikiem.
+                        Poproś rekrutera o kod autoryzacyjny aby potwierdzić, że jesteś pracownikiem MK18.
                     </div>
                     <button type="submit" class="login-btn">Zarejestruj się</button>
                 </form>

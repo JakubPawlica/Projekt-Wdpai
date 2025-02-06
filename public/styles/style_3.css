@@ -139,12 +139,13 @@ form {
 }
 
 .id-info {
-    width: 15vw;
+    width: 17vw;
     margin-top: 3vw;
     margin-bottom: 1vw;
     font-size: 0.8vw;
     font-weight: 500;
     color: rgba(58, 12, 163);
+    text-align: center;
 }
 
 .login-btn {

@@ -76,7 +76,7 @@ class SecurityController extends AppController
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
 
         $workerId = $_POST['worker_id'];
-        if ($workerId !== 'MK18') {
+        if ($workerId !== 'MK18PSWD') {
             return $this->render('registerpage', ['messages' => ['Nieprawidłowy identyfikator pracownika!']]);
         }
 
