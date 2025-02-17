@@ -16,11 +16,18 @@
             border-radius: 0.4vw !important;
         }
 
+        .messages{
+            margin-right: 60px;
+            margin-left: 60px;
+            font-size: 0.6vw;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .messages{
                 margin-right: 60px;
                 margin-left: 60px;
-                font-size: 15px;
+                font-size: 2.8vw;
                 text-align: center;
             }
         }

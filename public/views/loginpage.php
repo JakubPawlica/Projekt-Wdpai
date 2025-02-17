@@ -10,11 +10,19 @@
     <script src="https://kit.fontawesome.com/820b3635bf.js" crossorigin="anonymous"></script>
     <title>Zaloguj się</title>
     <style>
+
+        .messages{
+            margin-right: 60px;
+            margin-left: 60px;
+            font-size: 0.6vw;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .messages{
                 margin-right: 60px;
                 margin-left: 60px;
-                font-size: 15px;
+                font-size: 2.8vw;
                 text-align: center;
             }
         }
